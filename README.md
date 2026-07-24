@@ -45,6 +45,10 @@ Prioridad ante contradicciones: Blueprint → Arquitectura → Sprints → Dossi
 
 Para EAS se necesita una cuenta Expo. Maestro CLI y un dispositivo/emulador son necesarios para E2E.
 
+Use `npm run eas -- <comando>` para las operaciones EAS. El script fija EAS CLI 21.2.0 y
+TypeScript 6.0.3 mientras `npx eas-cli@latest` instala TypeScript 7 en su caché temporal,
+incompatible con la lectura de `app.config.ts` de esta versión de EAS.
+
 ## Instalación
 
 ```bash
@@ -114,8 +118,8 @@ y Gradle; no versione `android/`.
 ### Android con EAS
 
 ```bash
-npx eas-cli@latest login
-npx eas-cli@latest build --platform android --profile development
+npm run eas -- login
+npm run eas -- build --platform android --profile development
 ```
 
 Descargue el APK desde el enlace de EAS e instálelo en el dispositivo. El perfil `development` incluye `expo-dev-client` y distribución interna.
@@ -125,13 +129,13 @@ Descargue el APK desde el enlace de EAS e instálelo en el dispositivo. El perfi
 Build de simulador:
 
 ```bash
-npx eas-cli@latest build --platform ios --profile development-simulator
+npm run eas -- build --platform ios --profile development-simulator
 ```
 
 Build interno para dispositivo:
 
 ```bash
-npx eas-cli@latest build --platform ios --profile development
+npm run eas -- build --platform ios --profile development
 ```
 
 El segundo requiere registro/provisionamiento del dispositivo y credenciales Apple. El build local iOS requiere macOS:
@@ -143,8 +147,8 @@ npx expo run:ios
 ### Preview y producción
 
 ```bash
-npx eas-cli@latest build --platform all --profile preview
-npx eas-cli@latest build --platform all --profile production
+npm run eas -- build --platform all --profile preview
+npm run eas -- build --platform all --profile production
 ```
 
 Preview es distribución interna sin herramientas de desarrollo; production genera artefactos destinados a tiendas.

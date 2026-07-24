@@ -34,7 +34,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
   return {
     ...config,
     name: 'GymBox',
-    slug: 'gymbox-mobile',
+    slug: 'escuela-de-box-rd',
     version,
     scheme: 'gymbox',
     orientation: 'portrait',
@@ -73,6 +73,9 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       ],
     ],
     extra: {
+      eas: {
+        projectId: 'd41e8f3e-a692-43e0-ab5b-fd53b06de939',
+      },
       environment,
       apiBaseUrl: readApiBaseUrl(environment),
       appVersion: version,

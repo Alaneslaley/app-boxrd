@@ -48,6 +48,7 @@
     "test:unit": "jest --runInBand src/core",
     "test:components": "jest --runInBand src/shared src/features",
     "doctor": "npx expo-doctor",
+    "eas": "npx --yes --package eas-cli@21.2.0 --package typescript@6.0.3 eas",
     "generate:api": "node scripts/generate-api.mjs",
     "verify:contract": "node scripts/verify-contract.mjs",
     "verify:boundaries": "node scripts/verify-boundaries.mjs",
