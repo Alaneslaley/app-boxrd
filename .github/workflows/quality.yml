@@ -1,0 +1,64 @@
+name: Mobile quality
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install from lockfile
+        run: npm ci
+
+      - name: Expo Doctor
+        run: npm run doctor
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:unit
+
+      - name: Component tests
+        run: npm run test:components
+
+      - name: Verify OpenAPI contract
+        run: npm run verify:contract
+
+      - name: Generate OpenAPI types
+        run: npm run generate:api
+
+      - name: Generated code is current
+        run: git diff --exit-code -- src/generated/api
+
+      - name: Verify import boundaries
+        run: npm run verify:boundaries
+
+      - name: Detect dependency cycles
+        run: npm run verify:cycles
+
+      - name: Validate environments
+        run: npm run validate:environments
+
+      - name: Export Android bundle
+        run: npm run export
