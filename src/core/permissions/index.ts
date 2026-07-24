@@ -1,2 +1,7 @@
 export { can } from './can';
-export { PermissionGate } from './PermissionGate';
+export type { Permission, PermissionRequirement } from './Permission';
+export {
+  PermissionGate,
+  type PermissionGateActionProps,
+  type PermissionGateProps,
+} from './PermissionGate';

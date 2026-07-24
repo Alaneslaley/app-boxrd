@@ -1,3 +1,4 @@
+import { forwardRef } from 'react';
 import { StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
 
 import { colors, radius, spacing, typography } from '@/shared/theme';
@@ -9,33 +10,43 @@ export type TextFieldProps = TextInputProps &
     hint?: string;
   }>;
 
-export function TextField({
-  label,
-  error,
-  hint,
-  accessibilityLabel = label,
-  ...props
-}: TextFieldProps) {
-  return (
-    <View style={styles.group}>
-      <Text style={styles.label}>{label}</Text>
-      <TextInput
-        accessibilityLabel={accessibilityLabel}
-        accessibilityHint={hint}
-        style={[styles.input, error ? styles.inputError : undefined]}
-        placeholderTextColor={colors.disabled}
-        {...props}
-      />
-      {error ? (
-        <Text accessibilityLiveRegion="polite" style={styles.error}>
-          ⚠ {error}
-        </Text>
-      ) : hint ? (
-        <Text style={styles.hint}>{hint}</Text>
-      ) : null}
-    </View>
-  );
-}
+export const TextField = forwardRef<TextInput, TextFieldProps>(
+  function TextField(
+    {
+      label,
+      error,
+      hint,
+      accessibilityLabel = label,
+      ...props
+    },
+    ref,
+  ) {
+    return (
+      <View style={styles.group}>
+        <Text style={styles.label}>{label}</Text>
+        <TextInput
+          ref={ref}
+          accessibilityLabel={accessibilityLabel}
+          accessibilityHint={hint}
+          style={[styles.input, error ? styles.inputError : undefined]}
+          placeholderTextColor={colors.disabled}
+          {...props}
+        />
+        {error ? (
+          <Text
+            accessibilityLiveRegion="assertive"
+            accessibilityRole="alert"
+            style={styles.error}
+          >
+            ⚠ {error}
+          </Text>
+        ) : hint ? (
+          <Text style={styles.hint}>{hint}</Text>
+        ) : null}
+      </View>
+    );
+  },
+);
 
 const styles = StyleSheet.create({
   group: { gap: spacing[2] },

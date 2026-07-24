@@ -1,11 +1,14 @@
 import { createContext, useContext } from 'react';
 
+import type { SessionCredentials } from './SessionGateway';
 import type { SessionState } from './SessionState';
 
 export type SessionContextValue = Readonly<{
   state: SessionState;
-  simulateSignIn: () => void;
-  simulateSignOut: () => void;
+  busy: 'idle' | 'recovering' | 'signing-in' | 'signing-out';
+  signIn(credentials: SessionCredentials): Promise<void>;
+  signOut(): Promise<void>;
+  retryBootstrap(): Promise<void>;
 }>;
 
 export const SessionContext = createContext<SessionContextValue | undefined>(undefined);

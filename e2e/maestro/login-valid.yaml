@@ -1,0 +1,18 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 1 - login válido
+tags:
+  - auth
+  - smoke
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- assertVisible: "GymBox"
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Sesión autenticada"
+- assertVisible: "Cerrar sesión"

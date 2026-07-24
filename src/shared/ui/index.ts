@@ -7,5 +7,6 @@ export { LoadingState } from './LoadingState';
 export { OfflineBanner } from './OfflineBanner';
 export { PasswordField } from './PasswordField';
 export { Screen, type ScreenProps } from './Screen';
+export { StateMessage } from './StateMessage';
 export { StatusBadge, type StatusTone } from './StatusBadge';
 export { TextField, type TextFieldProps } from './TextField';

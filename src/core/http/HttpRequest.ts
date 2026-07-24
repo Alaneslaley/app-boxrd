@@ -5,6 +5,9 @@ export type HttpRequest = Readonly<{
   path: `/${string}`;
   headers?: Readonly<Record<string, string>>;
   body?: unknown;
+  requiresAuth?: boolean;
+  allowRefresh?: boolean;
+  alreadyRetried?: boolean;
   signal?: AbortSignal;
   timeoutMs?: number;
 }>;

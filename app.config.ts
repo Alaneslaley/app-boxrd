@@ -81,7 +81,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
       appVersion: version,
       buildNumber: process.env.APP_BUILD ?? 'local',
       commit: process.env.APP_COMMIT ?? 'unknown',
-      enableDemoSession: process.env.EXPO_PUBLIC_ENABLE_DEMO_SESSION ?? 'true',
+      enableDemoSession: process.env.EXPO_PUBLIC_ENABLE_DEMO_SESSION ?? 'false',
     },
   };
 };

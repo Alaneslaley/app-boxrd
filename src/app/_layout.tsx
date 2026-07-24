@@ -1,23 +1,21 @@
 import { Stack } from 'expo-router';
 
 import { AppBootstrap, AppProviders, useSession } from '@/core';
-import { LoadingState } from '@/shared';
+import { createAuthSessionService } from '@/features/auth';
 
 function RootNavigator() {
   const { state } = useSession();
-  if (state.status === 'booting') return <LoadingState />;
+  const anonymous = state.status === 'anonymous';
+  const authenticated = state.status === 'authenticated';
 
   return (
     <Stack screenOptions={{ headerBackTitle: 'Atrás' }}>
-      <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Protected guard={state.status === 'anonymous'}>
-        <Stack.Screen name="sign-in" options={{ title: 'Acceso demo' }} />
+      <Stack.Protected guard={anonymous}>
+        <Stack.Screen name="(public)" options={{ headerShown: false }} />
       </Stack.Protected>
-      <Stack.Protected guard={state.status === 'authenticated'}>
-        <Stack.Screen name="protected" options={{ headerShown: false }} />
-        <Stack.Screen name="access-denied" options={{ title: 'Sin permiso' }} />
+      <Stack.Protected guard={authenticated}>
+        <Stack.Screen name="(protected)" options={{ headerShown: false }} />
       </Stack.Protected>
-      <Stack.Screen name="design-system" options={{ title: 'Componentes' }} />
       <Stack.Screen name="+not-found" options={{ title: 'No encontrada' }} />
     </Stack>
   );
@@ -25,7 +23,7 @@ function RootNavigator() {
 
 export default function RootLayout() {
   return (
-    <AppProviders>
+    <AppProviders createSessionService={createAuthSessionService}>
       <AppBootstrap>
         <RootNavigator />
       </AppBootstrap>

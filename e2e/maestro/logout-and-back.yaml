@@ -1,0 +1,21 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 1 - logout elimina historial protegido
+tags:
+  - auth
+  - logout
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Sesión autenticada"
+- tapOn: "Cerrar sesión"
+- assertVisible: "GymBox"
+- pressKey: BACK
+- assertVisible: "GymBox"
+- assertNotVisible: "Sesión autenticada"

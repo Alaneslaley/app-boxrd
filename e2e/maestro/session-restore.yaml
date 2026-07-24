@@ -1,0 +1,20 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 1 - restauración segura
+tags:
+  - auth
+  - session
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Sesión autenticada"
+- stopApp
+- launchApp
+- assertVisible: "Sesión autenticada"
+- assertNotVisible: "Iniciar sesión"

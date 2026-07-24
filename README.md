@@ -1,334 +1,250 @@
 # GymBox Mobile
 
-Aplicación móvil operativa de GymBox para instructores, recepción y personal autorizado. Este repositorio contiene la **Fase 0 — Fundación técnica** sobre Expo SDK 57; todavía no implementa autenticación ni módulos del negocio.
+Aplicación móvil interna de Escuela de Box RD para personal autorizado. La
+versión `0.1.0` implementa el Sprint 1: autenticación, sesión segura, permisos y
+estados controlados. No contiene módulos operativos del Sprint 2.
 
-La zona horaria de negocio canónica es `America/Mexico_City`; `core/time` la expone
-como constante, mientras los instantes de transporte deben conservarse en UTC.
+## Estado actual
 
-## Estado y alcance
+Implementado:
 
-Incluido en Fase 0:
+- Expo SDK 57, React Native 0.86, React 19 y TypeScript strict;
+- Expo Router con grupos públicos/protegidos y `Stack.Protected`;
+- login real mediante `POST /api/v1/auth/login`;
+- access token exclusivamente en memoria;
+- refresh token exclusivamente en `expo-secure-store`;
+- restauración mediante refresh rotado y `GET /api/v1/auth/me`;
+- refresh single-flight y replay máximo una vez;
+- logout remoto best-effort y limpieza local obligatoria;
+- permisos provenientes de `/auth/me`, `PermissionGate` y 403 sin refresh;
+- errores seguros en español con código de soporte `traceId`;
+- estados para ALUMNO, acceso denegado y `mustChangePassword`;
+- pruebas unitarias, integración, componentes y flujos Maestro preparados.
 
-- Expo Router en `src/app`, development client, CNG y perfiles EAS;
-- arquitectura feature-first y verificaciones de límites/ciclos;
-- configuración validada para local, development, staging y production;
-- TanStack Query conectado a NetInfo y AppState;
-- sesión, permisos y navegación exclusivamente simulados;
-- design system inicial del instructor;
-- cliente HTTP tipado y fakes;
-- contrato OpenAPI mock mínimo y generación de tipos;
-- Jest Expo, React Native Testing Library, Maestro smoke y CI.
+Pendiente de infraestructura/backend:
 
-No incluido: login/refresh real, alumnos, membresías, pagos, caja, asistencia, check-in, recibos, fotos, notificaciones, app de alumno ni sincronización offline. Esos módulos no deben iniciarse antes de aprobar G0.
+- cuentas seed administradas por un canal seguro;
+- catálogo estable de roles/permisos y owner técnico del contrato;
+- confirmar con credenciales rotación, `/me`, logout y 403 reales;
+- mecanismo de access token corto para E2E de refresh;
+- corregir en OpenAPI los gaps de seguridad, errores y campos requeridos.
 
-## Documentación fuente
+El backend temporal configurado para development/staging es:
 
-- [Arquitectura](docs/GymBox_Mobile_Fase1_Arquitectura.md)
+```text
+https://box-rd-backend.onrender.com/api/v1
+```
+
+La variable de ambiente guarda sólo el origen
+`https://box-rd-backend.onrender.com`; el cliente agrega `/api/v1`. El host
+declarado actualmente por el OpenAPI, `api.escuelaboxrd.com.mx`, está
+inaccesible y no se usa temporalmente.
+
+## Fuentes de verdad
+
 - [Blueprint](docs/GymBox_Mobile_Fase1_Blueprint.md)
-- [Dossier](docs/GymBox_Mobile_Fase1_Dossier.md)
+- [Arquitectura](docs/GymBox_Mobile_Fase1_Arquitectura.md)
 - [Sprints](docs/GymBox_Mobile_Fase1_Sprints.md)
+- [Dossier](docs/GymBox_Mobile_Fase1_Dossier.md)
 - [Informe de color](docs/Informe_de_color_para_la_app_box.md)
+- [OpenAPI oficial](contracts/openapi/gymbox-openapi.json)
 
-Prioridad ante contradicciones: Blueprint → Arquitectura → Sprints → Dossier → Informe de color. La documentación oficial define la forma técnica; estos documentos definen arquitectura y alcance.
+No se modifican los archivos de `docs/` ni el contrato desde el frontend.
 
-## Versiones y requisitos
+## Requisitos
 
 | Herramienta | Versión |
 |---|---|
+| Node.js | `^22.13.0` o `>=24` |
 | Expo | SDK 57 (`~57.0.8`) |
 | React Native | `0.86.0` |
 | React | `19.2.3` |
-| Node.js | `^22.13.0` o `>=24` (CI usa 24) |
-| Java | 21 para build Android local |
-| Android SDK | API/compile SDK compatibles con Expo 57 |
-| iOS | macOS, Xcode compatible y cuenta/certificados según distribución |
+| Java | 21 para Android local |
+| Maestro | Requerido sólo para E2E |
 
-Para EAS se necesita una cuenta Expo. Maestro CLI y un dispositivo/emulador son necesarios para E2E.
+No se usa Expo Go como entorno oficial; el ciclo real utiliza development o
+preview builds.
 
-Use `npm run eas -- <comando>` para las operaciones EAS. El script fija EAS CLI 21.2.0 y
-TypeScript 6.0.3 mientras `npx eas-cli@latest` instala TypeScript 7 en su caché temporal,
-incompatible con la lectura de `app.config.ts` de esta versión de EAS.
-
-## Instalación
-
-```bash
-npm ci
-cp .env.local.example .env.local
-```
-
-En PowerShell:
+## Instalación y ambiente
 
 ```powershell
-Copy-Item .env.local.example .env.local
-```
-
-No use Expo Go como entorno oficial. El ciclo real utiliza development builds:
-
-```bash
+npm ci
+Copy-Item .env.staging.example .env.local
 npm run start
 ```
 
-## Ambientes
+`.env.local` está ignorado por Git. No almacene allí contraseñas ni tokens.
 
-| Ambiente | Archivo de referencia | Transporte |
-|---|---|---|
-| local | `.env.local.example` | HTTP local permitido |
-| development | `.env.development.example` | HTTP de red privada permitido |
-| staging | `.env.staging.example` | HTTPS obligatorio |
-| production | `.env.production.example` | HTTPS obligatorio |
-
-Variables permitidas:
+Variables públicas permitidas:
 
 - `APP_ENV`;
 - `APP_VERSION`;
 - `APP_BUILD`;
 - `APP_COMMIT`;
 - `EXPO_PUBLIC_API_URL`;
-- `EXPO_PUBLIC_ENABLE_DEMO_SESSION`.
+- `EXPO_PUBLIC_ENABLE_DEMO_SESSION` (se conserva por compatibilidad y debe ser
+  `false`; la sesión demo fue retirada).
 
-`EXPO_PUBLIC_API_URL` contiene sólo host/base y **no** `/api/v1`; `GymboxHttpClient` agrega ese prefijo. Todo `EXPO_PUBLIC_*` queda visible en el binario: no guarde secretos, contraseñas, tokens ni claves de proveedor.
-
-Valide los cuatro ejemplos con:
+Todo valor `EXPO_PUBLIC_*` queda visible en el binario. No incluya secretos.
 
 ```bash
 npm run validate:environments
 ```
 
-## Development builds, preview y CNG
+## Expo y EAS
 
-### Android local
+El proyecto Expo está vinculado como
+`@escuela-de-box-rd/escuela-de-box-rd`, con project ID
+`d41e8f3e-a692-43e0-ab5b-fd53b06de939`.
 
-```powershell
-npx expo prebuild --clean --platform android
-$env:NODE_ENV = "development"
-Set-Location android
-.\gradlew.bat assembleDebug
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-Set-Location ..
-npm run start
-```
-
-La validación de Fase 0 generó además
-`artifacts/android/gymbox-mobile-development-arm64.apk` (artefacto local ignorado
-por Git), compilado para `arm64-v8a`, paquete `mx.com.gymbox.mobile`, min SDK 24 y
-target SDK 36. Si Ninja informa que `build.ninja` permanece `dirty` en una carpeta
-de OneDrive, copie el checkout a una ruta local corta antes de ejecutar `prebuild`
-y Gradle; no versione `android/`.
-
-### Android con EAS
+Use el wrapper del repositorio para evitar la incompatibilidad observada entre
+EAS CLI latest y TypeScript 7:
 
 ```bash
-npm run eas -- login
+npm run eas -- project:info
 npm run eas -- build --platform android --profile development
+npm run eas -- build --platform android --profile preview
 ```
 
-Descargue el APK desde el enlace de EAS e instálelo en el dispositivo. El perfil `development` incluye `expo-dev-client` y distribución interna.
+Preview es distribución interna, usa APK en Android e incluye la URL temporal de
+staging. No se publica aún en stores.
 
-### iOS
-
-Build de simulador:
-
-```bash
-npm run eas -- build --platform ios --profile development-simulator
-```
-
-Build interno para dispositivo:
-
-```bash
-npm run eas -- build --platform ios --profile development
-```
-
-El segundo requiere registro/provisionamiento del dispositivo y credenciales Apple. El build local iOS requiere macOS:
-
-```bash
-npx expo run:ios
-```
-
-### Preview y producción
-
-```bash
-npm run eas -- build --platform all --profile preview
-npm run eas -- build --platform all --profile production
-```
-
-Preview es distribución interna sin herramientas de desarrollo; production genera artefactos destinados a tiendas.
-
-### Qué regenera CNG
-
-`android/` e `ios/` no se versionan. `npx expo prebuild --clean` los reconstruye desde el template de SDK 57, `app.config.ts`, config plugins y dependencias nativas. No edite esos directorios manualmente: los cambios persistentes deben expresarse mediante app config o plugins.
+En SDK 57, `expo prebuild` limpia y regenera nativo de forma predeterminada.
+`android/` e `ios/` no se versionan; cualquier cambio persistente debe expresarse
+en `app.config.ts` o config plugins.
 
 ## Arquitectura
 
 ```text
-.
-├── .github/workflows/quality.yml
-├── assets/
-├── contracts/gymbox-openapi.yaml
-├── docs/
-├── e2e/maestro/
-├── scripts/
-├── src/
-│   ├── app/                    # rutas y layouts delgados
-│   ├── core/                   # infraestructura técnica
-│   ├── features/
-│   │   └── phase-zero-demo/    # única feature demostrativa
-│   ├── generated/api/          # salida OpenAPI; no editar
-│   ├── shared/                 # tema, UI y utilidades puras
-│   └── test/                   # helpers, fakes y fixtures
-├── app.config.ts
-├── eas.json
-├── eslint.config.js
-├── jest.config.js
-├── metro.config.js
-└── tsconfig.json
+src/
+├── app/
+│   ├── (public)/sign-in.tsx
+│   └── (protected)/
+│       ├── (instructor)/index.tsx
+│       ├── access-denied.tsx
+│       ├── experience-not-available.tsx
+│       └── must-change-password.tsx
+├── core/
+│   ├── app/
+│   ├── http/
+│   ├── observability/
+│   ├── permissions/
+│   ├── query/
+│   └── session/
+├── features/auth/
+│   ├── api/
+│   ├── application/
+│   ├── model/
+│   ├── ui/
+│   └── __tests__/
+├── generated/api/
+├── shared/
+└── test/
 ```
 
 Reglas:
 
-- `app` importa únicamente APIs públicas de features, core y shared;
-- features pueden importar core/shared/generated;
-- core y shared no importan features;
-- una feature consume otra sólo mediante su `index.ts`;
-- rutas no contienen fetch, SecureStore ni reglas de negocio;
-- UI no consume DTO OpenAPI;
-- `src/generated/api/` se regenera, nunca se edita;
-- no se crean carpetas globales `screens`, `services`, `models`, `repositories` ni `controllers`.
+- rutas y layouts no ejecutan HTTP ni acceden a SecureStore;
+- UI no manipula tokens ni consume DTO generados;
+- `AuthRemoteGateway` adapta OpenAPI a modelos internos;
+- `core` y `shared` no importan features;
+- los guards móviles no sustituyen autorización backend;
+- no hay Redux, Zustand ni stores persistidos de sesión.
 
 ```bash
 npm run verify:boundaries
 npm run verify:cycles
 ```
 
-## Estado remoto, ciclo de vida y red
+## Sesión y seguridad
 
-TanStack Query usa `NetworkQueryBridge` con NetInfo y `AppStateQueryBridge` con `focusManager`. Defaults de Fase 0:
+Flujo de login:
 
-- lecturas: `staleTime` 30 s, GC 5 min, un retry sólo para error desconocido/red/5xx;
-- nunca retry automático para 401, 403, 409 o 422;
-- todas las mutaciones: `retry: 0` y `networkMode: online`;
-- pagos, caja y check-in futuros permanecerán online y sin retry automático.
+1. React Hook Form y Zod validan y normalizan sólo el email.
+2. Login obtiene tokens.
+3. SecureStore guarda únicamente el refresh token rotado.
+4. El access token permanece en `SessionService`.
+5. `/auth/me` valida usuario, roles, permisos y estado.
+6. Protected Routes selecciona la experiencia permitida.
 
-No hay Redux ni Zustand.
+El login móvil omite por ahora el campo opcional `device`: el contrato no
+define un identificador estable ni una política de privacidad para poblarlo. El
+adapter lo soporta para cuando backend formalice esa decisión.
 
-## HTTP, sesión y seguridad
+El logout intenta la revocación con bearer + refresh token, pero siempre invalida
+refresh en curso y limpia access token, SecureStore, QueryClient, estado e
+historial protegido, incluso sin red.
 
-`GymboxHttpClient` es la puerta HTTP y agrega `/api/v1`. `ApiError` conserva `status`, `code`, `message`, `details`, `timestamp` y `traceId`. `FakeHttpClient` permite pruebas sin backend.
-
-La sesión actual es un simulador en memoria. Para Sprint 1:
-
-- access token sólo en memoria;
-- refresh token rotativo sólo mediante `TokenVault`/SecureStore;
-- backend autoritativo para roles y permisos;
-- logout limpia tokens, query cache e historial protegido;
-- nunca registrar contraseñas, tokens, PII o payloads financieros.
+Nunca se registran passwords, tokens, `Authorization`, cookies ni payloads con
+PII. `SanitizingLogger` redacta claves y valores sensibles.
 
 ## OpenAPI
 
-`contracts/gymbox-openapi.yaml` está marcado `0.0.0-mock` y `x-gymbox-contract-status: mock`. Define únicamente `ApiError`; deliberadamente no inventa endpoints.
+El contrato oficial es OpenAPI 3.1 JSON:
 
 ```bash
 npm run verify:contract
 npm run generate:api
 ```
 
-Cuando backend entregue el contrato oficial:
+`src/generated/api` es salida automática de `@hey-api/openapi-ts` y no se edita
+manualmente. Los adapters validan en runtime porque `AuthTokens` y
+`UserSnapshot` no tienen `required` en el contrato.
 
-1. acordar owner y versionado;
-2. sustituir el mock;
-3. retirar la marca mock;
-4. generar `src/generated/api/`;
-5. adaptar DTO en gateways/mappers de cada feature;
-6. agregar contract tests antes de integrar.
+Gaps vigentes:
 
-## Pruebas
+- `bearerAuth` existe, pero ninguna operación aplica `security`;
+- no hay `ApiError`, responses 400/401/403/409/5xx ni `traceId`;
+- logout requiere bearer en el backend observado, pero no en el contrato;
+- no se documentan unidades de `expiresIn`, rotación ni idempotencia;
+- no hay endpoint para `mustChangePassword`;
+- roles, permisos y estados son strings sin catálogo.
+
+El backend temporal sí devolvió en pruebas públicas el formato estándar con
+`traceId`; esto no elimina la deuda del OpenAPI.
+
+## Pruebas y calidad
 
 ```bash
+npm run doctor
+npm run lint
+npm run typecheck
 npm test
-npm run test:watch
 npm run test:unit
 npm run test:components
+npm run verify:contract
+npm run generate:api
+npm run validate:environments
+npm run verify:boundaries
+npm run verify:cycles
+npm run export
+npm run quality
 ```
 
-Las pruebas cubren configuración, retry policies, NetInfo, AppState, FakeHttpClient, render público/protegido, bloqueo sin sesión, AccessDenied y estados Loading/Empty/Error/Offline. No se usan snapshots extensos.
+La CI ejecuta instalación reproducible, Doctor, lint, TypeScript, pruebas,
+contrato/generación y diff, límites, ciclos, ambientes y export Android.
 
-Smoke E2E:
+## Maestro
+
+Los flujos están en [`e2e/maestro`](e2e/maestro/README.md). Las credenciales se
+inyectan al proceso:
 
 ```bash
-npm run e2e
+maestro test \
+  -e GYMBOX_E2E_EMAIL=... \
+  -e GYMBOX_E2E_PASSWORD=... \
+  e2e/maestro/login-valid.yaml
 ```
 
-Requiere Maestro, un development build instalado y un dispositivo/emulador activo. El flujo está en `e2e/maestro/phase-zero-smoke.yaml`.
+No existen credenciales ni bypasses en Git. La ejecución real permanece
+bloqueada hasta recibir seeds y un build instalado. El logout offline por modo
+avión se limita a Android.
 
-## Comandos
+## Límites de la versión 0.1.0
 
-| Comando | Función |
-|---|---|
-| `npm run start` | Metro para development client |
-| `npm run android` / `npm run ios` | CNG + build local |
-| `npm run doctor` | compatibilidad Expo |
-| `npm run lint` | ESLint |
-| `npm run typecheck` | TypeScript estricto |
-| `npm test` | Jest/RNTL |
-| `npm run verify:contract` | contrato mock/oficial |
-| `npm run generate:api` | tipos OpenAPI |
-| `npm run verify:boundaries` | límites de imports |
-| `npm run verify:cycles` | ciclos |
-| `npm run validate:environments` | cuatro ambientes |
-| `npm run export` | bundle Android de producción |
-| `npm run quality` | pipeline local completo |
+No incluye alumnos, búsqueda, membresías, caja, pagos, recibos, asistencia,
+check-in, módulo deportivo, notificaciones, recuperación/cambio ficticio de
+contraseña, registro, biometría, OAuth ni operación offline compleja.
 
-## CI
-
-`.github/workflows/quality.yml` ejecuta, en orden: `npm ci`, Expo Doctor, lint, typecheck, unit tests, component tests, verificación y generación OpenAPI, diff del generado, boundaries, ciclos, ambientes y export Android.
-
-Maestro no se ejecuta en el runner estándar porque necesita binario y dispositivo; debe añadirse como job EAS/Maestro cuando exista el build de preview y credenciales.
-
-## Flujo Git
-
-- ramas: `main` protegida, `develop` para integración y `feature/MOB-####-descripcion`;
-- commits Conventional Commits, por ejemplo `feat(core): add query bridges`;
-- PR pequeña, vinculada a MOB, con criterio de aceptación, pruebas, evidencia visual y riesgos;
-- no mezclar cambios de contrato con UI no relacionada;
-- merge sólo con CI verde y revisión;
-- secretos en EAS/GitHub Environments, nunca en Git o `EXPO_PUBLIC_*`.
-
-## Problemas conocidos y Gate G0
-
-| Dependencia | Estado | Evidencia | Acción pendiente |
-|---|---|---|---|
-| API base de identidad | BLOQUEADO | El contrato mock no contiene endpoints | Acordar login/refresh/logout/me |
-| Backend de desarrollo | BLOQUEADO | No se proporcionó URL ni health check | Publicar backend dev |
-| HTTPS o conexión segura | PENDIENTE | Schemas exigen HTTPS en staging/prod | Entregar host/certificados |
-| Usuarios seed | BLOQUEADO | Sólo existe usuario UI simulado | Crear seeds no productivos |
-| Roles iniciales | PENDIENTE | Documentados, no verificados contra backend | Confirmar catálogo |
-| Permisos iniciales | BLOQUEADO | Sólo existe permiso demo local | Publicar códigos y matriz |
-| Contrato OpenAPI | BLOQUEADO | `0.0.0-mock`, sin endpoints | Sustituir por contrato oficial |
-| Responsable del contrato | BLOQUEADO | No hay owner identificado | Nombrar owner backend |
-| Auditoría npm | DEUDA ACEPTADA | 0 altas/críticas; 11 moderadas transitivas de Expo 57 | Revisar con cada parche SDK, sin `audit fix --force` |
-
-No comenzar Sprint 1 mientras estos bloqueos críticos sigan abiertos.
-
-## Pasos exactos para iniciar Sprint 1
-
-1. Resolver y documentar cada fila de G0 con evidencia.
-2. Recibir y versionar el OpenAPI oficial de identidad.
-3. Generar tipos y aprobar el diff contractual.
-4. Acordar manejo exacto de login, refresh rotativo, logout, `/auth/me`, 401 y 403.
-5. Verificar seeds/roles/permisos en backend development mediante HTTPS o ruta segura.
-6. Crear la feature `auth` según Blueprint, sin cambiar los límites existentes.
-7. Implementar refresh single-flight y access token en memoria.
-8. Añadir contract, unit, component y Maestro tests de Sprint 1.
-9. Validar Android/iOS preview antes de declarar el gate de sesión.
-
-## Fuentes técnicas oficiales
-
-- [Expo SDK 57](https://docs.expo.dev/versions/v57.0.0/)
-- [Expo Router](https://docs.expo.dev/versions/v57.0.0/sdk/router/)
-- [Directorio `src/app`](https://docs.expo.dev/router/reference/src-directory/)
-- [Protected routes](https://docs.expo.dev/router/advanced/protected/)
-- [Development builds](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Continuous Native Generation](https://docs.expo.dev/workflow/continuous-native-generation/)
-- [EAS profiles](https://docs.expo.dev/build/eas-json/)
-- [TanStack Query en React Native](https://tanstack.com/query/latest/docs/framework/react/react-native)
-- [Jest con Expo](https://docs.expo.dev/develop/unit-testing/)
-- [Maestro Flows](https://docs.maestro.dev/maestro-flows)
+Consulte [RELEASE_NOTES_0.1.0.md](RELEASE_NOTES_0.1.0.md) para el Gate G1,
+limitaciones, pruebas y rollback.

@@ -27,6 +27,9 @@ export function AlertBanner({
   return (
     <View
       accessibilityLiveRegion={tone === 'danger' ? 'assertive' : 'polite'}
+      accessibilityRole={
+        tone === 'danger' || tone === 'warning' ? 'alert' : undefined
+      }
       style={[styles.banner, { backgroundColor: palette.background }]}
     >
       <Text style={[styles.title, { color: palette.foreground }]}>

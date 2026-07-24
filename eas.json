@@ -23,6 +23,14 @@
       "distribution": "internal",
       "channel": "staging",
       "environment": "preview",
+      "env": {
+        "APP_ENV": "staging",
+        "APP_VERSION": "0.1.0",
+        "APP_BUILD": "preview",
+        "APP_COMMIT": "eas",
+        "EXPO_PUBLIC_API_URL": "https://box-rd-backend.onrender.com",
+        "EXPO_PUBLIC_ENABLE_DEMO_SESSION": "false"
+      },
       "android": {
         "buildType": "apk"
       }

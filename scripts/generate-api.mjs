@@ -1,16 +1,29 @@
-import { mkdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { existsSync, mkdirSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const input = './contracts/gymbox-openapi.yaml';
-const output = './src/generated/api';
+const projectRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const input = resolve(projectRoot, 'contracts/openapi/gymbox-openapi.json');
+const output = resolve(projectRoot, 'src/generated/api');
+const cli = resolve(projectRoot, 'node_modules/@hey-api/openapi-ts/bin/run.js');
+
+if (!existsSync(input)) {
+  console.error(`OPENAPI: No existe el contrato oficial en ${input}.`);
+  process.exit(1);
+}
+
+if (!existsSync(cli)) {
+  console.error('OPENAPI: Falta @hey-api/openapi-ts. Ejecuta npm ci antes de generar.');
+  process.exit(1);
+}
 
 mkdirSync(output, { recursive: true });
 
-const executable = process.execPath;
 const result = spawnSync(
-  executable,
+  process.execPath,
   [
-    'node_modules/@hey-api/openapi-ts/bin/run.js',
+    cli,
     '--input',
     input,
     '--output',
@@ -19,8 +32,13 @@ const result = spawnSync(
     '@hey-api/typescript',
     '--no-log-file',
   ],
-  { stdio: 'inherit' },
+  { cwd: projectRoot, stdio: 'inherit' },
 );
+
+if (result.error) {
+  console.error(`OPENAPI: No se pudo iniciar el generador: ${result.error.message}`);
+  process.exit(1);
+}
 
 if (result.status !== 0) {
   process.exit(result.status ?? 1);

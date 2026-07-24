@@ -1,0 +1,17 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 1 - usuario sin permiso
+tags:
+  - auth
+  - permissions
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_NO_PERMISSION_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_NO_PERMISSION_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Acceso denegado"
+- assertVisible: "Cerrar sesión"

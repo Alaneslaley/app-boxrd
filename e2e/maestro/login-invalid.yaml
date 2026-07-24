@@ -1,0 +1,17 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 1 - credenciales inválidas
+tags:
+  - auth
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "cuenta-inexistente@gymbox.invalid"
+- tapOn: "Contraseña"
+- inputText: "credencial-deliberadamente-incorrecta"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "No pudimos iniciar sesión"
+- assertVisible: "El correo o la contraseña no son válidos."
+- assertVisible: "Iniciar sesión"

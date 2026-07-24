@@ -1,0 +1,18 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 1 - experiencia ALUMNO controlada
+tags:
+  - auth
+  - student
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_STUDENT_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_STUDENT_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Experiencia en preparación"
+- assertVisible: "La experiencia para alumnos estará disponible en una fase posterior."
+- assertVisible: "Cerrar sesión"
