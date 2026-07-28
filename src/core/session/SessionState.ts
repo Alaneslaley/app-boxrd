@@ -25,6 +25,11 @@ export type SessionNotice = Readonly<{
   retryable?: boolean;
 }>;
 
+export type ProtectedMediaSource = Readonly<{
+  uri: string;
+  headers: Readonly<Record<string, string>>;
+}>;
+
 export type SessionState =
   | Readonly<{ status: 'booting' }>
   | Readonly<{ status: 'anonymous'; notice?: SessionNotice }>

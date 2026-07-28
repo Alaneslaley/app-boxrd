@@ -7,6 +7,7 @@ import {
   useState,
   type PropsWithChildren,
 } from 'react';
+import type { HttpRequest, HttpResponse } from '@/core/http';
 
 import { SessionContext } from './SessionContext';
 import { sessionReducer } from './SessionReducer';
@@ -122,6 +123,21 @@ export function SessionProvider({
     }
   }, [busy, service]);
 
+  const authorizedRequest = useCallback(
+    <TResponse,>(
+      request: Omit<HttpRequest, 'requiresAuth'>,
+    ): Promise<HttpResponse<TResponse>> => {
+      if (!service) return Promise.reject(new Error('La sesión no está disponible.'));
+      return service.authorizedRequest<TResponse>(request);
+    },
+    [service],
+  );
+
+  const protectedMediaSource = useCallback(
+    (path: `/media/${string}`) => service?.protectedMediaSource(path),
+    [service],
+  );
+
   const value = useMemo(
     () => ({
       state,
@@ -129,8 +145,10 @@ export function SessionProvider({
       signIn,
       signOut,
       retryBootstrap,
+      authorizedRequest,
+      protectedMediaSource,
     }),
-    [busy, retryBootstrap, signIn, signOut, state],
+    [authorizedRequest, busy, protectedMediaSource, retryBootstrap, signIn, signOut, state],
   );
 
   return <SessionContext.Provider value={value}>{children}</SessionContext.Provider>;

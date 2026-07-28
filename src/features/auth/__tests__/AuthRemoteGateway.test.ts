@@ -26,7 +26,7 @@ const userSnapshot: GeneratedUserSnapshot = {
   mustChangePassword: false,
   authzVersion: 1,
   roles: ['INSTRUCTOR'],
-  permissions: ['students.read'],
+  permissions: ['ALUMNOS_CONSULTAR'],
   branchName: 'Sucursal de prueba',
 };
 
@@ -111,7 +111,7 @@ describe('AuthRemoteGateway', () => {
     await expect(gateway.me()).resolves.toMatchObject({
       fullName: 'Usuario Prueba',
       roles: ['INSTRUCTOR'],
-      permissions: ['students.read'],
+      permissions: ['ALUMNOS_CONSULTAR'],
     });
 
     expect(httpClient.requests).toEqual([

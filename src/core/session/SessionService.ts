@@ -1,4 +1,4 @@
-import { ApiError } from '@/core/http';
+import { ApiError, type HttpClient, type HttpRequest, type HttpResponse } from '@/core/http';
 import type { RefreshCoordinator } from '@/core/http/RefreshCoordinator';
 import type { Logger } from '@/core/observability';
 
@@ -28,6 +28,13 @@ export type SessionServiceDependencies = Readonly<{
   queryCache: QuerySessionCache;
   refreshCoordinator: RefreshCoordinator;
   logger: Logger;
+  httpClient?: HttpClient;
+  protectedMediaSource?(path: `/media/${string}`): ProtectedMediaSource | undefined;
+}>;
+
+export type ProtectedMediaSource = Readonly<{
+  uri: string;
+  headers: Readonly<Record<string, string>>;
 }>;
 
 type SessionListener = (state: ResolvedSessionState) => void;
@@ -96,6 +103,22 @@ export class SessionService {
 
   getAccessToken(): string | undefined {
     return this.accessToken;
+  }
+
+  async authorizedRequest<TResponse>(
+    request: Omit<HttpRequest, 'requiresAuth'>,
+  ): Promise<HttpResponse<TResponse>> {
+    if (!this.dependencies.httpClient) {
+      throw new Error('El cliente autenticado no está disponible.');
+    }
+    return this.dependencies.httpClient.request<TResponse>({
+      ...request,
+      requiresAuth: true,
+    });
+  }
+
+  protectedMediaSource(path: `/media/${string}`): ProtectedMediaSource | undefined {
+    return this.dependencies.protectedMediaSource?.(path);
   }
 
   subscribe(listener: SessionListener): () => void {

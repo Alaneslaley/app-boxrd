@@ -1,5 +1,5 @@
-import { InternalHomeScreen } from '@/features/auth';
+import { InstructorTodayScreen } from '@/features/instructor';
 
 export default function InternalHomeRoute() {
-  return <InternalHomeScreen />;
+  return <InstructorTodayScreen />;
 }

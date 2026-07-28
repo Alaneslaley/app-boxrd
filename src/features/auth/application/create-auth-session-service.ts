@@ -51,6 +51,15 @@ export function createAuthSessionService(
     queryCache: queryClient,
     refreshCoordinator,
     logger,
+    httpClient,
+    protectedMediaSource: (path) => {
+      const token = service?.getAccessToken();
+      if (!token) return undefined;
+      return {
+        uri: `${environment.apiBaseUrl}/api/v1${path}`,
+        headers: { Authorization: `Bearer ${token}` },
+      };
+    },
   });
 
   return service;

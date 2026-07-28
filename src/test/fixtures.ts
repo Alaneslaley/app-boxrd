@@ -14,8 +14,8 @@ export const authenticatedSessionFixture: SessionState = {
     mustChangePassword: false,
     authzVersion: 1,
     roles: ['INSTRUCTOR'],
-    permissions: ['phase-zero.protected'],
+    permissions: ['ALUMNOS_CONSULTAR'],
   },
-  permissions: new Set(['phase-zero.protected']),
+  permissions: new Set(['ALUMNOS_CONSULTAR']),
   experience: 'internal',
 };

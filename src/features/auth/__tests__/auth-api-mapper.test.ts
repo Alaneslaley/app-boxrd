@@ -28,7 +28,7 @@ const validUser: GeneratedUserSnapshot = {
   mustChangePassword: false,
   authzVersion: 7,
   roles: ['INSTRUCTOR'],
-  permissions: ['students.read'],
+  permissions: ['ALUMNOS_CONSULTAR'],
   branchName: 'Sucursal de prueba',
 };
 
@@ -81,10 +81,12 @@ describe('auth-api-mapper', () => {
     expect(session).toEqual(validTokens);
     expect(Object.isFrozen(session)).toBe(true);
     expect(() =>
-      toAuthSession({
-        tokenType: 'Bearer',
-        accessToken: 'access-token-test-only',
-      }),
+      toAuthSession(
+        {
+          tokenType: 'Bearer',
+          accessToken: 'access-token-test-only',
+        } as unknown as GeneratedAuthTokens,
+      ),
     ).toThrow(
       expect.objectContaining({
         status: 502,
@@ -101,7 +103,7 @@ describe('auth-api-mapper', () => {
       lastName: 'Lovelace',
       fullName: 'Ada Lovelace',
       roles: ['INSTRUCTOR'],
-      permissions: ['students.read'],
+      permissions: ['ALUMNOS_CONSULTAR'],
     });
     expect(user.roles).not.toBe(validUser.roles);
     expect(user.permissions).not.toBe(validUser.permissions);

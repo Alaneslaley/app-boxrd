@@ -1,7 +1,8 @@
 import { createContext, useContext } from 'react';
 
 import type { SessionCredentials } from './SessionGateway';
-import type { SessionState } from './SessionState';
+import type { HttpRequest, HttpResponse } from '@/core/http';
+import type { ProtectedMediaSource, SessionState } from './SessionState';
 
 export type SessionContextValue = Readonly<{
   state: SessionState;
@@ -9,6 +10,10 @@ export type SessionContextValue = Readonly<{
   signIn(credentials: SessionCredentials): Promise<void>;
   signOut(): Promise<void>;
   retryBootstrap(): Promise<void>;
+  authorizedRequest?<TResponse>(
+    request: Omit<HttpRequest, 'requiresAuth'>,
+  ): Promise<HttpResponse<TResponse>>;
+  protectedMediaSource?(path: `/media/${string}`): ProtectedMediaSource | undefined;
 }>;
 
 export const SessionContext = createContext<SessionContextValue | undefined>(undefined);
