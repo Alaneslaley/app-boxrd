@@ -3,7 +3,7 @@
     "info": {
         "title": "GymBox API",
         "description": "API administrativa y operativa de GymBox - Fase 1",
-        "version": "1.1.2"
+        "version": "1.2.0"
     },
     "servers": [
         {
@@ -523,8 +523,19 @@
                 "tags": [
                     "student-controller"
                 ],
-                "operationId": "list_1",
+                "summary": "Lista alumnos de la sucursal activa",
+                "operationId": "listStudents",
                 "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "maxLength": 100,
+                            "minLength": 2
+                        }
+                    },
                     {
                         "name": "page",
                         "in": "query",
@@ -551,11 +562,26 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Página de alumnos",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PageResponseStudentSummaryResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parámetros de solicitud inválidos.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -952,7 +978,7 @@
                 "tags": [
                     "payment-controller"
                 ],
-                "operationId": "list_2",
+                "operationId": "list_1",
                 "parameters": [
                     {
                         "name": "page",
@@ -2617,6 +2643,87 @@
                 }
             }
         },
+        "/api/v1/instructor/today/summary": {
+            "get": {
+                "tags": [
+                    "instructor-today-controller"
+                ],
+                "summary": "Resumen operacional del instructor para hoy",
+                "operationId": "getInstructorTodaySummary",
+                "responses": {
+                    "200": {
+                        "description": "Resumen de la sucursal activa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/InstructorTodaySummary"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Parámetros de solicitud inválidos.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/cash-register/current": {
             "get": {
                 "tags": [
@@ -3594,6 +3701,7 @@
             },
             "MembershipSnapshot": {
                 "type": "object",
+                "description": "Estado persistido y clasificación operacional de una membresía.",
                 "properties": {
                     "id": {
                         "type": "string",
@@ -3641,6 +3749,21 @@
                     },
                     "studentName": {
                         "type": "string"
+                    },
+                    "expirationStatus": {
+                        "type": "string",
+                        "description": "Clasificación derivada: EXPIRING_SOON cuando faltan de 0 a 5 días naturales inclusive.",
+                        "enum": [
+                            "ACTIVE",
+                            "EXPIRING_SOON",
+                            "EXPIRED",
+                            "INACTIVE"
+                        ]
+                    },
+                    "daysUntilExpiration": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Días naturales entre la fecha de negocio y endDate; puede ser negativo."
                     }
                 }
             },
@@ -4383,6 +4506,42 @@
                     },
                     "last": {
                         "type": "boolean"
+                    }
+                }
+            },
+            "InstructorTodaySummary": {
+                "type": "object",
+                "properties": {
+                    "businessDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "branchId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "activeStudents": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "attendanceToday": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "activeMemberships": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "expiringSoonMemberships": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "expiredMemberships": {
+                        "type": "integer",
+                        "format": "int64"
                     }
                 }
             },
