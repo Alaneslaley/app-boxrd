@@ -3,7 +3,7 @@
     "info": {
         "title": "GymBox API",
         "description": "API administrativa y operativa de GymBox - Fase 1",
-        "version": "1.1.1"
+        "version": "1.1.2"
     },
     "servers": [
         {
@@ -60,6 +60,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -88,6 +133,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/StudentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -130,6 +220,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -168,6 +303,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PlanSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -216,6 +396,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -241,6 +466,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UserSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -289,6 +559,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -314,6 +629,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/StudentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -363,6 +723,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/StudentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -420,6 +825,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -445,6 +895,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PlanSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -493,6 +988,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -530,6 +1070,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PaymentSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -578,6 +1163,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -603,6 +1233,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/MembershipSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -647,6 +1322,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -677,6 +1397,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -704,6 +1469,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CashRegisterSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -772,7 +1582,7 @@
                             }
                         }
                     },
-                    "5XX": {
+                    "500": {
                         "description": "Error interno.",
                         "headers": {
                             "X-Trace-Id": {
@@ -846,7 +1656,7 @@
                             }
                         }
                     },
-                    "5XX": {
+                    "500": {
                         "description": "Error interno.",
                         "headers": {
                             "X-Trace-Id": {
@@ -931,7 +1741,7 @@
                             }
                         }
                     },
-                    "5XX": {
+                    "500": {
                         "description": "Error interno.",
                         "headers": {
                             "X-Trace-Id": {
@@ -1005,7 +1815,7 @@
                             }
                         }
                     },
-                    "5XX": {
+                    "500": {
                         "description": "Error interno.",
                         "headers": {
                             "X-Trace-Id": {
@@ -1055,6 +1865,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1093,6 +1948,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UserSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -1137,6 +2037,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1160,6 +2105,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1177,6 +2167,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AdminDashboardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -1211,6 +2246,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1239,6 +2319,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ReceiptSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -1276,6 +2401,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1305,6 +2475,51 @@
                                 "schema": {
                                     "type": "string",
                                     "format": "byte"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -1353,6 +2568,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1370,6 +2630,51 @@
                             "*/*": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CashRegisterSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -1411,7 +2716,7 @@
                             }
                         }
                     },
-                    "5XX": {
+                    "500": {
                         "description": "Error interno.",
                         "headers": {
                             "X-Trace-Id": {
@@ -1476,6 +2781,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1530,6 +2880,51 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Autorización rechazada o cambio de contraseña pendiente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1564,7 +2959,7 @@
                     "branchId": {
                         "type": "string",
                         "format": "uuid",
-                        "description": "Sucursal asignada, cuando corresponde."
+                        "description": "Sucursal asignada. Por compatibilidad, se omite cuando el usuario histórico no tiene sucursal asignada; el cliente debe manejar su ausencia."
                     },
                     "email": {
                         "type": "string",
@@ -1637,7 +3032,7 @@
                     },
                     "branchName": {
                         "type": "string",
-                        "description": "Nombre de la sucursal asignada, cuando corresponde."
+                        "description": "Nombre de la sucursal asignada. Se omite junto con branchId cuando el usuario histórico no tiene sucursal asignada."
                     }
                 },
                 "required": [
@@ -2423,7 +3818,7 @@
                     "details": {
                         "type": "object",
                         "additionalProperties": {},
-                        "description": "Detalles estructurados cuando aplican; puede ser un objeto vacío."
+                        "description": "Detalles estructurados cuando aplican; es un objeto vacío cuando no hay detalles públicos."
                     },
                     "timestamp": {
                         "type": "string",
@@ -2436,6 +3831,7 @@
                 },
                 "required": [
                     "code",
+                    "details",
                     "message",
                     "timestamp",
                     "traceId"
