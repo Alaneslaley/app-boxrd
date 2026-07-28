@@ -3,12 +3,23 @@
     "info": {
         "title": "GymBox API",
         "description": "API administrativa y operativa de GymBox - Fase 1",
-        "version": "dev"
+        "version": "1.1.1"
     },
     "servers": [
         {
-            "url": "https://api.escuelaboxrd.com.mx",
+            "url": "https://box-rd-backend.onrender.com",
             "description": "Generated server url"
+        }
+    ],
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ],
+    "tags": [
+        {
+            "name": "Authentication",
+            "description": "Autenticación, renovación y cierre de sesión."
         }
     ],
     "paths": {
@@ -703,8 +714,10 @@
         "/api/v1/auth/refresh": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication"
                 ],
+                "summary": "Renovar sesión",
+                "description": "Rota el refresh token y emite nuevos tokens de la misma sesión.",
                 "operationId": "refresh",
                 "requestBody": {
                     "content": {
@@ -718,23 +731,74 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Tokens renovados.",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthTokens"
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Refresh token inválido o no vigente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": []
             }
         },
         "/api/v1/auth/logout": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication"
                 ],
+                "summary": "Cerrar sesión",
+                "description": "Cierra de forma idempotente la sesión asociada al bearer y al refresh token recibido.",
                 "operationId": "logout",
                 "requestBody": {
                     "content": {
@@ -748,16 +812,71 @@
                 },
                 "responses": {
                     "204": {
-                        "description": "No Content"
+                        "description": "Sesión cerrada; no contiene body."
+                    },
+                    "400": {
+                        "description": "Solicitud inválida.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer o relación de sesión no válidos.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/login": {
             "post": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication"
                 ],
+                "summary": "Iniciar sesión",
+                "description": "Autentica credenciales válidas y emite un access token de corta duración con refresh token rotativo.",
                 "operationId": "login",
                 "requestBody": {
                     "content": {
@@ -771,16 +890,143 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Autenticación exitosa.",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/AuthTokens"
                                 }
                             }
                         }
+                    },
+                    "400": {
+                        "description": "Solicitud inválida.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": []
+            }
+        },
+        "/api/v1/auth/change-password": {
+            "post": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Cambiar contraseña",
+                "description": "Actualiza la contraseña del usuario autenticado, revoca todas sus sesiones y requiere un nuevo inicio de sesión.",
+                "operationId": "changePassword",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "204": {
+                        "description": "Contraseña actualizada; no contiene body."
+                    },
+                    "400": {
+                        "description": "Solicitud o cambio de contraseña no válido.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Bearer no válido o sesión no vigente.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/attendance/check-in": {
@@ -1134,21 +1380,59 @@
         "/api/v1/auth/me": {
             "get": {
                 "tags": [
-                    "auth-controller"
+                    "Authentication"
                 ],
+                "summary": "Consultar usuario autenticado",
                 "operationId": "me",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Snapshot del usuario autenticado.",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/UserSnapshot"
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Bearer ausente, inválido, expirado o sin sesión activa.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId",
+                                "style": "simple"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/attendance/today": {
@@ -1271,6 +1555,7 @@
             },
             "UserSnapshot": {
                 "type": "object",
+                "description": "Información pública del usuario autenticado y sus capacidades efectivas.",
                 "properties": {
                     "id": {
                         "type": "string",
@@ -1278,10 +1563,12 @@
                     },
                     "branchId": {
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uuid",
+                        "description": "Sucursal asignada, cuando corresponde."
                     },
                     "email": {
-                        "type": "string"
+                        "type": "string",
+                        "format": "email"
                     },
                     "firstName": {
                         "type": "string"
@@ -1290,7 +1577,12 @@
                         "type": "string"
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "ACTIVE",
+                            "INACTIVE",
+                            "SUSPENDED"
+                        ]
                     },
                     "mustChangePassword": {
                         "type": "boolean"
@@ -1302,21 +1594,63 @@
                     "roles": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                                "ADMINISTRADOR",
+                                "ALUMNO",
+                                "INSTRUCTOR",
+                                "RECEPCION"
+                            ]
                         },
                         "uniqueItems": true
                     },
                     "permissions": {
                         "type": "array",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "enum": [
+                                "ALUMNOS_CONSULTAR",
+                                "ALUMNOS_CREAR",
+                                "ALUMNOS_DESACTIVAR",
+                                "ALUMNOS_MODIFICAR",
+                                "ASISTENCIAS_CONSULTAR",
+                                "ASISTENCIAS_REGISTRAR",
+                                "CAJA_ABRIR",
+                                "CAJA_CERRAR",
+                                "CAJA_CONSULTAR",
+                                "MEMBRESIAS_CONSULTAR",
+                                "MEMBRESIAS_CREAR",
+                                "MEMBRESIAS_MODIFICAR",
+                                "PAGOS_CANCELAR",
+                                "PAGOS_CONSULTAR",
+                                "PAGOS_REGISTRAR",
+                                "PLANES_CONSULTAR",
+                                "PLANES_GESTIONAR",
+                                "REPORTES_DIARIOS_CONSULTAR",
+                                "USUARIOS_CONSULTAR",
+                                "USUARIOS_CREAR",
+                                "USUARIOS_DESACTIVAR",
+                                "USUARIOS_MODIFICAR"
+                            ]
                         },
                         "uniqueItems": true
                     },
                     "branchName": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Nombre de la sucursal asignada, cuando corresponde."
                     }
-                }
+                },
+                "required": [
+                    "authzVersion",
+                    "email",
+                    "firstName",
+                    "id",
+                    "lastName",
+                    "mustChangePassword",
+                    "permissions",
+                    "roles",
+                    "status"
+                ]
             },
             "EmergencyContactRequest": {
                 "type": "object",
@@ -2033,6 +2367,7 @@
             },
             "RefreshRequest": {
                 "type": "object",
+                "description": "Refresh token de la sesión.",
                 "properties": {
                     "refreshToken": {
                         "type": "string",
@@ -2045,24 +2380,70 @@
             },
             "AuthTokens": {
                 "type": "object",
+                "description": "Tokens emitidos al autenticar o renovar una sesión.",
                 "properties": {
                     "tokenType": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Tipo de token entregado; siempre Bearer.",
+                        "enum": [
+                            "Bearer"
+                        ]
                     },
                     "accessToken": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Access token de corta duración."
                     },
                     "expiresIn": {
                         "type": "integer",
-                        "format": "int64"
+                        "format": "int64",
+                        "description": "Duración del access token, expresada en segundos."
                     },
                     "refreshToken": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Refresh token rotativo de la sesión."
                     }
-                }
+                },
+                "required": [
+                    "accessToken",
+                    "expiresIn",
+                    "refreshToken",
+                    "tokenType"
+                ]
+            },
+            "ApiError": {
+                "type": "object",
+                "description": "Error público estable de la API.",
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "message": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "object",
+                        "additionalProperties": {},
+                        "description": "Detalles estructurados cuando aplican; puede ser un objeto vacío."
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "traceId": {
+                        "type": "string",
+                        "description": "Identificador de correlación para soporte."
+                    }
+                },
+                "required": [
+                    "code",
+                    "message",
+                    "timestamp",
+                    "traceId"
+                ]
             },
             "LoginRequest": {
                 "type": "object",
+                "description": "Credenciales de inicio de sesión.",
                 "properties": {
                     "email": {
                         "type": "string",
@@ -2082,6 +2463,32 @@
                 "required": [
                     "email",
                     "password"
+                ]
+            },
+            "ChangePasswordRequest": {
+                "type": "object",
+                "description": "Cambio de contraseña del usuario autenticado.",
+                "properties": {
+                    "currentPassword": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 0
+                    },
+                    "newPassword": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 12
+                    },
+                    "confirmNewPassword": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "minLength": 12
+                    }
+                },
+                "required": [
+                    "confirmNewPassword",
+                    "currentPassword",
+                    "newPassword"
                 ]
             },
             "CheckInRequest": {
@@ -2185,9 +2592,9 @@
                     "status": {
                         "type": "string",
                         "enum": [
-                            "ACTIVO",
-                            "INACTIVO",
-                            "BLOQUEADO"
+                            "ACTIVE",
+                            "INACTIVE",
+                            "SUSPENDED"
                         ]
                     }
                 },
@@ -2617,6 +3024,15 @@
                 }
             }
         },
+        "headers": {
+            "XTraceId": {
+                "description": "Identificador de correlacion para soporte. Coincide con ApiError.traceId.",
+                "schema": {
+                    "type": "string",
+                    "minLength": 8
+                }
+            }
+        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
@@ -2624,5 +3040,6 @@
                 "bearerFormat": "JWT"
             }
         }
-    }
+    },
+    "x-gymbox-authorization-catalog-version": "1.0.0"
 }
