@@ -1008,7 +1008,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PageResponsePaymentSnapshot"
                                 }
@@ -1102,10 +1102,13 @@
                                         "true"
                                     ]
                                 }
+                            },
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
                             }
                         },
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PaymentSnapshot"
                                 }
@@ -1167,12 +1170,75 @@
                                         "false"
                                     ]
                                 }
+                            },
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
                             }
                         },
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PaymentSnapshot"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Membresía, alumno o caja no disponible.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Regla financiera no satisfecha.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflicto de idempotencia o sucursal.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud de pago inválida.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
                                 }
                             }
                         }
@@ -1449,7 +1515,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CashRegisterSnapshot"
                                 }
@@ -1488,6 +1554,51 @@
                     },
                     "500": {
                         "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud de apertura inválida.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "CURRENCY_MISMATCH u otra regla de negocio.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "CASH_REGISTER_ALREADY_OPEN.",
                         "headers": {
                             "X-Trace-Id": {
                                 "$ref": "#/components/headers/XTraceId"
@@ -1524,7 +1635,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CashRegisterSnapshot"
                                 }
@@ -1563,6 +1674,66 @@
                     },
                     "500": {
                         "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "CASH_REGISTER_NOT_OPEN.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "CURRENCY_MISMATCH u otra regla de negocio.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "CASH_REGISTER_ALREADY_CLOSED.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Solicitud de cierre inválida.",
                         "headers": {
                             "X-Trace-Id": {
                                 "$ref": "#/components/headers/XTraceId"
@@ -2298,7 +2469,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PaymentSnapshot"
                                 }
@@ -2374,7 +2545,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ReceiptSnapshot"
                                 }
@@ -2766,7 +2937,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/CashRegisterSnapshot"
                                 }
@@ -2805,6 +2976,21 @@
                     },
                     "500": {
                         "description": "Error interno.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "CASH_REGISTER_NOT_OPEN: no existe una caja abierta para la sucursal actual.",
                         "headers": {
                             "X-Trace-Id": {
                                 "$ref": "#/components/headers/XTraceId"
@@ -3658,6 +3844,7 @@
             },
             "PaymentSnapshot": {
                 "type": "object",
+                "description": "Pago confirmado con snapshots financieros autoritativos.",
                 "properties": {
                     "id": {
                         "type": "string",
@@ -3686,16 +3873,32 @@
                         "type": "number"
                     },
                     "currency": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "MXN"
+                        ]
                     },
                     "method": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "CASH",
+                            "TRANSFER",
+                            "MANUAL_CARD"
+                        ]
                     },
                     "concept": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "MEMBERSHIP_RENEWAL",
+                            "SINGLE_CLASS",
+                            "CLASS_PACKAGE"
+                        ]
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "REGISTERED"
+                        ]
                     },
                     "effectiveDate": {
                         "type": "string",
@@ -3711,7 +3914,21 @@
                     "studentName": {
                         "type": "string"
                     }
-                }
+                },
+                "required": [
+                    "amount",
+                    "branchId",
+                    "concept",
+                    "createdAt",
+                    "currency",
+                    "effectiveDate",
+                    "folio",
+                    "id",
+                    "membershipId",
+                    "method",
+                    "status",
+                    "studentId"
+                ]
             },
             "CreateMembershipRequest": {
                 "type": "object",
@@ -3824,6 +4041,9 @@
                     },
                     "currency": {
                         "type": "string",
+                        "enum": [
+                            "MXN"
+                        ],
                         "minLength": 1,
                         "pattern": "[A-Za-z]{3}"
                     }
@@ -3835,6 +4055,7 @@
             },
             "CashRegisterSnapshot": {
                 "type": "object",
+                "description": "Estado autoritativo de la caja de la sucursal.",
                 "properties": {
                     "id": {
                         "type": "string",
@@ -3873,10 +4094,17 @@
                         "type": "number"
                     },
                     "currency": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "MXN"
+                        ]
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "OPEN",
+                            "CLOSED"
+                        ]
                     },
                     "notes": {
                         "type": "string"
@@ -3890,17 +4118,35 @@
                     "closedByName": {
                         "type": "string"
                     }
-                }
+                },
+                "required": [
+                    "branchId",
+                    "currency",
+                    "expectedCash",
+                    "id",
+                    "initialCash",
+                    "openedAt",
+                    "openedBy",
+                    "status"
+                ]
             },
             "CloseRequest": {
                 "type": "object",
                 "properties": {
+                    "cashRegisterId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Caja obtenida desde current; permite distinguir un cierre duplicado."
+                    },
                     "countedAmount": {
                         "type": "number",
                         "minimum": 0.00
                     },
                     "currency": {
                         "type": "string",
+                        "enum": [
+                            "MXN"
+                        ],
                         "minLength": 1,
                         "pattern": "[A-Za-z]{3}"
                     },
@@ -4417,6 +4663,7 @@
             },
             "ReceiptSnapshot": {
                 "type": "object",
+                "description": "Recibo. fileId y generatedAt existen únicamente cuando status es READY; PENDING y FAILED los omiten.",
                 "properties": {
                     "id": {
                         "type": "string",
@@ -4440,24 +4687,45 @@
                         "type": "number"
                     },
                     "currency": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "MXN"
+                        ]
                     },
                     "paymentMethod": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "CASH",
+                            "TRANSFER",
+                            "MANUAL_CARD"
+                        ]
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "READY",
+                            "FAILED"
+                        ]
                     },
                     "deliveryStatus": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "RETRYING",
+                            "SENT",
+                            "FAILED"
+                        ]
                     },
                     "generatedAt": {
                         "type": "string",
-                        "format": "date-time"
+                        "format": "date-time",
+                        "description": "Requerido cuando status es READY."
                     },
                     "fileId": {
                         "type": "string",
-                        "format": "uuid"
+                        "format": "uuid",
+                        "description": "Requerido cuando status=READY; nulo cuando status=PENDING o status=FAILED. Se descarga mediante media protegida."
                     },
                     "failureCode": {
                         "type": "string"
@@ -4465,7 +4733,18 @@
                     "studentName": {
                         "type": "string"
                     }
-                }
+                },
+                "required": [
+                    "amount",
+                    "currency",
+                    "deliveryStatus",
+                    "id",
+                    "paymentFolio",
+                    "paymentId",
+                    "paymentMethod",
+                    "receiptNumber",
+                    "status"
+                ]
             },
             "PageResponseMembershipSnapshot": {
                 "type": "object",

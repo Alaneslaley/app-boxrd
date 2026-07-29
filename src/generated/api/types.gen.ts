@@ -150,20 +150,23 @@ export type RegisterRequest = {
     effectiveDate: string;
 };
 
+/**
+ * Pago confirmado con snapshots financieros autoritativos.
+ */
 export type PaymentSnapshot = {
-    id?: string;
-    folio?: string;
-    branchId?: string;
-    studentId?: string;
-    membershipId?: string;
+    id: string;
+    folio: string;
+    branchId: string;
+    studentId: string;
+    membershipId: string;
     cashRegisterId?: string;
-    amount?: number;
-    currency?: string;
-    method?: string;
-    concept?: string;
-    status?: string;
-    effectiveDate?: string;
-    createdAt?: string;
+    amount: number;
+    currency: 'MXN';
+    method: 'CASH' | 'TRANSFER' | 'MANUAL_CARD';
+    concept: 'MEMBERSHIP_RENEWAL' | 'SINGLE_CLASS' | 'CLASS_PACKAGE';
+    status: 'REGISTERED';
+    effectiveDate: string;
+    createdAt: string;
     branchName?: string;
     studentName?: string;
 };
@@ -207,22 +210,25 @@ export type RenewMembershipRequest = {
 
 export type OpenRequest = {
     openingAmount: number;
-    currency: string;
+    currency: 'MXN';
 };
 
+/**
+ * Estado autoritativo de la caja de la sucursal.
+ */
 export type CashRegisterSnapshot = {
-    id?: string;
-    branchId?: string;
-    openedBy?: string;
-    openedAt?: string;
+    id: string;
+    branchId: string;
+    openedBy: string;
+    openedAt: string;
     closedBy?: string;
     closedAt?: string;
-    initialCash?: number;
-    expectedCash?: number;
+    initialCash: number;
+    expectedCash: number;
     countedCash?: number;
     difference?: number;
-    currency?: string;
-    status?: string;
+    currency: 'MXN';
+    status: 'OPEN' | 'CLOSED';
     notes?: string;
     branchName?: string;
     openedByName?: string;
@@ -230,8 +236,12 @@ export type CashRegisterSnapshot = {
 };
 
 export type CloseRequest = {
+    /**
+     * Caja obtenida desde current; permite distinguir un cierre duplicado.
+     */
+    cashRegisterId?: string;
     countedAmount: number;
-    currency: string;
+    currency: 'MXN';
     notes?: string;
 };
 
@@ -419,18 +429,27 @@ export type PageResponsePaymentSnapshot = {
     last?: boolean;
 };
 
+/**
+ * Recibo. fileId y generatedAt existen únicamente cuando status es READY; PENDING y FAILED los omiten.
+ */
 export type ReceiptSnapshot = {
-    id?: string;
-    paymentId?: string;
-    receiptNumber?: string;
-    paymentFolio?: string;
+    id: string;
+    paymentId: string;
+    receiptNumber: string;
+    paymentFolio: string;
     studentId?: string;
-    amount?: number;
-    currency?: string;
-    paymentMethod?: string;
-    status?: string;
-    deliveryStatus?: string;
+    amount: number;
+    currency: 'MXN';
+    paymentMethod: 'CASH' | 'TRANSFER' | 'MANUAL_CARD';
+    status: 'PENDING' | 'READY' | 'FAILED';
+    deliveryStatus: 'PENDING' | 'RETRYING' | 'SENT' | 'FAILED';
+    /**
+     * Requerido cuando status es READY.
+     */
     generatedAt?: string;
+    /**
+     * Requerido cuando status=READY; nulo cuando status=PENDING o status=FAILED. Se descarga mediante media protegida.
+     */
     fileId?: string;
     failureCode?: string;
     studentName?: string;
@@ -924,6 +943,10 @@ export type RegisterData = {
 
 export type RegisterErrors = {
     /**
+     * Solicitud de pago inválida.
+     */
+    400: ApiError;
+    /**
      * Bearer ausente, inválido, expirado o sin sesión activa.
      */
     401: ApiError;
@@ -931,6 +954,18 @@ export type RegisterErrors = {
      * Autorización rechazada o cambio de contraseña pendiente.
      */
     403: ApiError;
+    /**
+     * Membresía, alumno o caja no disponible.
+     */
+    404: ApiError;
+    /**
+     * Conflicto de idempotencia o sucursal.
+     */
+    409: ApiError;
+    /**
+     * Regla financiera no satisfecha.
+     */
+    422: ApiError;
     /**
      * Error interno.
      */
@@ -1065,6 +1100,10 @@ export type OpenData = {
 
 export type OpenErrors = {
     /**
+     * Solicitud de apertura inválida.
+     */
+    400: ApiError;
+    /**
      * Bearer ausente, inválido, expirado o sin sesión activa.
      */
     401: ApiError;
@@ -1072,6 +1111,14 @@ export type OpenErrors = {
      * Autorización rechazada o cambio de contraseña pendiente.
      */
     403: ApiError;
+    /**
+     * CASH_REGISTER_ALREADY_OPEN.
+     */
+    409: ApiError;
+    /**
+     * CURRENCY_MISMATCH u otra regla de negocio.
+     */
+    422: ApiError;
     /**
      * Error interno.
      */
@@ -1098,6 +1145,10 @@ export type CloseData = {
 
 export type CloseErrors = {
     /**
+     * Solicitud de cierre inválida.
+     */
+    400: ApiError;
+    /**
      * Bearer ausente, inválido, expirado o sin sesión activa.
      */
     401: ApiError;
@@ -1105,6 +1156,18 @@ export type CloseErrors = {
      * Autorización rechazada o cambio de contraseña pendiente.
      */
     403: ApiError;
+    /**
+     * CASH_REGISTER_NOT_OPEN.
+     */
+    404: ApiError;
+    /**
+     * CASH_REGISTER_ALREADY_CLOSED.
+     */
+    409: ApiError;
+    /**
+     * CURRENCY_MISMATCH u otra regla de negocio.
+     */
+    422: ApiError;
     /**
      * Error interno.
      */
@@ -1652,6 +1715,10 @@ export type CurrentErrors = {
      * Autorización rechazada o cambio de contraseña pendiente.
      */
     403: ApiError;
+    /**
+     * CASH_REGISTER_NOT_OPEN: no existe una caja abierta para la sucursal actual.
+     */
+    404: ApiError;
     /**
      * Error interno.
      */
