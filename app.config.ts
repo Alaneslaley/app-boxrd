@@ -29,7 +29,7 @@ function readApiBaseUrl(environment: AppEnvironment): string {
 
 export default ({ config }: ConfigContext): ExpoConfig => {
   const environment = readEnvironment();
-  const version = process.env.APP_VERSION ?? '0.1.0';
+  const version = process.env.APP_VERSION ?? '0.2.0';
 
   return {
     ...config,

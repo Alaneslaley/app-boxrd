@@ -14,5 +14,6 @@ tags:
 - inputText: "${GYMBOX_E2E_PASSWORD}"
 - hideKeyboard
 - tapOn: "Iniciar sesión"
-- assertVisible: "Sesión autenticada"
+- assertVisible: "Operación de hoy"
+- assertVisible: "Alumnos activos"
 - assertVisible: "Cerrar sesión"

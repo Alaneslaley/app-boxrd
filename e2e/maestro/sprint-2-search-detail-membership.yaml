@@ -1,0 +1,23 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 2 - búsqueda, ficha y membresía
+tags:
+  - sprint-2
+  - students
+  - memberships
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- tapOn: "Buscar alumnos"
+- tapOn: "Nombre o teléfono"
+- inputText: "${GYMBOX_E2E_SEARCH_NAME}"
+- assertVisible: "${GYMBOX_E2E_SEARCH_RESULT_NAME}"
+- tapOn: "${GYMBOX_E2E_SEARCH_RESULT_NAME}"
+- assertVisible: "Ficha del alumno"
+- assertVisible: "Membresías"

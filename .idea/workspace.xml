@@ -4,7 +4,23 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1235660-ec07-4465-9b73-b39e81826b4d" name="Changes" comment="" />
+    <list default="true" id="d1235660-ec07-4465-9b73-b39e81826b4d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CIERRES_PR_0_A_PR_4.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/RELEASE_NOTES_0.1.0.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SPRINT_2_DIAGNOSTICO.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/e2e/maestro/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/maestro/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/e2e/maestro/login-valid.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/maestro/login-valid.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/instructor/ui/InstructorTodayScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/instructor/ui/InstructorTodayScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/students/application/student-queries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/application/student-queries.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/students/ui/ProtectedStudentPhoto.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/ui/ProtectedStudentPhoto.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/students/ui/StudentDetailScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/ui/StudentDetailScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/students/ui/StudentSearchScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/ui/StudentSearchScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generated/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/api/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generated/api/types.gen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/api/types.gen.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,16 +31,17 @@
   </component>
   <component name="CopilotPersistence">
     <persistenceIdMap>
+      <entry key="_C:/ESCUELA BOX RD/box-RD" value="3H9gwK5QziSND2Wm1tiE3wXsHwP" />
       <entry key="_C:/Users/alan_/OneDrive/Documentos/TRABAJO/ESCUELA BOX RD/box-RD" value="3Gz5FLBEoGe9YJ9vJXC081hs99m" />
     </persistenceIdMap>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="3Gz5FLBEoGe9YJ9vJXC081hs99m" />
   <component name="ProjectSessionTemplates">
     <option name="panelTemplate">
@@ -57,7 +74,8 @@
     "cidr.known.project.marker": "true",
     "copilot.chat.legacySessionMetadata.migrated": "true",
     "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true"
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/ESCUELA BOX RD/box-RD"
   }
 }]]></component>
   <component name="TaskManager">

@@ -1,22 +1,39 @@
 import { useRouter } from 'expo-router';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
+import { ApiError } from '@/core/http';
 import { can } from '@/core/permissions';
+import { useNetworkStatus } from '@/core/query';
 import { useSession } from '@/core/session';
-import { AlertBanner, AppButton, Screen } from '@/shared';
-import { colors, spacing, typography } from '@/shared/theme';
+import { AccessDeniedState, AlertBanner, AppButton, ErrorState, LoadingState, OfflineBanner, Screen } from '@/shared';
+import { colors, radius, spacing, typography } from '@/shared/theme';
+
+import { useInstructorTodaySummary } from '../application/instructor-queries';
+
+const labels = [
+  ['Alumnos activos', 'activeStudents'], ['Asistencias hoy', 'attendanceToday'], ['Membresías activas', 'activeMemberships'], ['Próximas a vencer', 'expiringSoonMemberships'], ['Vencidas', 'expiredMemberships'],
+] as const;
 
 export function InstructorTodayScreen() {
   const router = useRouter();
   const { state, busy, signOut } = useSession();
+  const { isOnline } = useNetworkStatus();
+  const summary = useInstructorTodaySummary();
   if (state.status !== 'authenticated') return null;
   const canReadStudents = can(state.permissions, 'ALUMNOS_CONSULTAR');
-  return <Screen title={`Hola, ${state.user.firstName}`} subtitle="Operación de hoy">
-    <AlertBanner title="Resumen operativo" tone="info" message="El contrato actual sólo publica registros de asistencia paginados, no un resumen agregado. Se muestran accesos seguros sin inventar conteos." />
-    <View style={{ gap: spacing[2] }}><Text style={{ ...typography.title, color: colors.text }}>Acciones rápidas</Text>
-      <AppButton disabled={!canReadStudents} label="Buscar alumnos" onPress={() => router.push('./students')} />
-      {!canReadStudents ? <Text style={{ ...typography.caption, color: colors.textMuted }}>Tu sesión no tiene permiso para consultar alumnos.</Text> : null}
-    </View>
+  if (summary.isPending) return <Screen title={`Hola, ${state.user.firstName}`} subtitle="Operación de hoy"><LoadingState message="Cargando resumen operativo…" /></Screen>;
+  if (summary.isError) return <Screen title={`Hola, ${state.user.firstName}`} subtitle="Operación de hoy">{summary.error instanceof ApiError && summary.error.status === 403 ? <AccessDeniedState /> : <ErrorState onRetry={() => void summary.refetch()} traceId={summary.error instanceof ApiError ? summary.error.traceId : undefined} />}</Screen>;
+  const data = summary.data;
+  return <Screen title={`Hola, ${state.user.firstName}`} subtitle={`${data.branchName} · ${data.businessDate}`}>
+    <OfflineBanner visible={!isOnline} />
+    {summary.isStale ? <AlertBanner title="Datos por actualizar" tone="warning" message="Se actualizarán al recuperar conexión o al tocar Actualizar." /> : null}
+    <View style={styles.grid}>{labels.map(([label, field]) => <View key={field} accessibilityLabel={`${label}: ${data[field]}`} style={styles.card}><Text style={styles.count}>{data[field]}</Text><Text style={styles.label}>{label}</Text></View>)}</View>
+    <AppButton label="Actualizar resumen" loading={summary.isRefetching} onPress={() => void summary.refetch()} variant="secondary" />
+    <Text style={styles.section}>Acciones rápidas</Text>
+    <AppButton disabled={!canReadStudents} label="Buscar alumnos" onPress={() => router.push('./students')} />
+    {!canReadStudents ? <Text style={styles.hint}>Tu sesión no tiene permiso para consultar alumnos.</Text> : null}
     <AppButton label="Cerrar sesión" loading={busy === 'signing-out'} onPress={() => { void signOut(); }} variant="danger" />
   </Screen>;
 }
+
+const styles = StyleSheet.create({ grid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[3] }, card: { minWidth: '46%', flexGrow: 1, gap: spacing[1], borderWidth: 1, borderColor: colors.border, borderRadius: radius.md, padding: spacing[4], backgroundColor: colors.surface }, count: { ...typography.heading, color: colors.text }, label: { ...typography.caption, color: colors.textMuted }, section: { ...typography.title, color: colors.text }, hint: { ...typography.caption, color: colors.textMuted } });

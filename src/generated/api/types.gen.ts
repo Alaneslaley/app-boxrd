@@ -173,6 +173,9 @@ export type CreateMembershipRequest = {
     startDate: string;
 };
 
+/**
+ * Estado persistido y clasificación operacional de una membresía.
+ */
 export type MembershipSnapshot = {
     id?: string;
     branchId?: string;
@@ -187,6 +190,14 @@ export type MembershipSnapshot = {
     remainingClasses?: number;
     branchName?: string;
     studentName?: string;
+    /**
+     * Clasificación derivada: EXPIRING_SOON cuando faltan de 0 a 5 días naturales inclusive.
+     */
+    expirationStatus?: 'ACTIVE' | 'EXPIRING_SOON' | 'EXPIRED' | 'INACTIVE';
+    /**
+     * Días naturales entre la fecha de negocio y endDate; puede ser negativo.
+     */
+    daysUntilExpiration?: number;
 };
 
 export type RenewMembershipRequest = {
@@ -449,6 +460,17 @@ export type PageResponseInstructorTodayResponse = {
     last?: boolean;
 };
 
+export type InstructorTodaySummary = {
+    businessDate?: string;
+    branchId?: string;
+    name?: string;
+    activeStudents?: number;
+    attendanceToday?: number;
+    activeMemberships?: number;
+    expiringSoonMemberships?: number;
+    expiredMemberships?: number;
+};
+
 export type PageResponseAttendanceResponse = {
     content?: Array<AttendanceResponse>;
     page?: number;
@@ -668,17 +690,22 @@ export type CreateResponses = {
 
 export type CreateResponse = CreateResponses[keyof CreateResponses];
 
-export type List1Data = {
+export type ListStudentsData = {
     body?: never;
     path?: never;
     query?: {
+        search?: string;
         page?: number;
         size?: number;
     };
     url: '/api/v1/students';
 };
 
-export type List1Errors = {
+export type ListStudentsErrors = {
+    /**
+     * Parámetros de solicitud inválidos.
+     */
+    400: ApiError;
     /**
      * Bearer ausente, inválido, expirado o sin sesión activa.
      */
@@ -693,16 +720,16 @@ export type List1Errors = {
     500: ApiError;
 };
 
-export type List1Error = List1Errors[keyof List1Errors];
+export type ListStudentsError = ListStudentsErrors[keyof ListStudentsErrors];
 
-export type List1Responses = {
+export type ListStudentsResponses = {
     /**
-     * OK
+     * Página de alumnos
      */
     200: PageResponseStudentSummaryResponse;
 };
 
-export type List1Response = List1Responses[keyof List1Responses];
+export type ListStudentsResponse = ListStudentsResponses[keyof ListStudentsResponses];
 
 export type Create1Data = {
     body: CreateStudentRequest;
@@ -844,7 +871,7 @@ export type CreatePlanResponses = {
 
 export type CreatePlanResponse = CreatePlanResponses[keyof CreatePlanResponses];
 
-export type List2Data = {
+export type List1Data = {
     body?: never;
     path?: never;
     query?: {
@@ -854,7 +881,7 @@ export type List2Data = {
     url: '/api/v1/payments';
 };
 
-export type List2Errors = {
+export type List1Errors = {
     /**
      * Bearer ausente, inválido, expirado o sin sesión activa.
      */
@@ -869,16 +896,16 @@ export type List2Errors = {
     500: ApiError;
 };
 
-export type List2Error = List2Errors[keyof List2Errors];
+export type List1Error = List1Errors[keyof List1Errors];
 
-export type List2Responses = {
+export type List1Responses = {
     /**
      * OK
      */
     200: PageResponsePaymentSnapshot;
 };
 
-export type List2Response = List2Responses[keyof List2Responses];
+export type List1Response = List1Responses[keyof List1Responses];
 
 export type RegisterData = {
     body: RegisterRequest;
@@ -1562,6 +1589,43 @@ export type TodayResponses = {
 };
 
 export type TodayResponse = TodayResponses[keyof TodayResponses];
+
+export type GetInstructorTodaySummaryData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/instructor/today/summary';
+};
+
+export type GetInstructorTodaySummaryErrors = {
+    /**
+     * Parámetros de solicitud inválidos.
+     */
+    400: ApiError;
+    /**
+     * Bearer ausente, inválido, expirado o sin sesión activa.
+     */
+    401: ApiError;
+    /**
+     * Autorización rechazada o cambio de contraseña pendiente.
+     */
+    403: ApiError;
+    /**
+     * Error interno.
+     */
+    500: ApiError;
+};
+
+export type GetInstructorTodaySummaryError = GetInstructorTodaySummaryErrors[keyof GetInstructorTodaySummaryErrors];
+
+export type GetInstructorTodaySummaryResponses = {
+    /**
+     * Resumen de la sucursal activa
+     */
+    200: InstructorTodaySummary;
+};
+
+export type GetInstructorTodaySummaryResponse = GetInstructorTodaySummaryResponses[keyof GetInstructorTodaySummaryResponses];
 
 export type CurrentData = {
     body?: never;
