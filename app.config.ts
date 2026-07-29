@@ -39,25 +39,25 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     scheme: 'gymbox',
     orientation: 'portrait',
     userInterfaceStyle: 'light',
-    icon: './assets/icon.png',
+    icon: './assets/branding/app-icon-square.png',
     runtimeVersion: { policy: 'appVersion' },
     experiments: { typedRoutes: true },
     ios: {
       supportsTablet: false,
       bundleIdentifier: 'mx.com.gymbox.mobile',
+      icon: './assets/branding/app-icon-square.png',
     },
     android: {
       package: 'mx.com.gymbox.mobile',
+      icon: './assets/branding/app-icon-legacy-android.png',
       predictiveBackGestureEnabled: true,
       adaptiveIcon: {
-        backgroundColor: '#F8FAFC',
-        foregroundImage: './assets/android-icon-foreground.png',
-        backgroundImage: './assets/android-icon-background.png',
-        monochromeImage: './assets/android-icon-monochrome.png',
+        backgroundColor: '#000000',
+        foregroundImage: './assets/branding/adaptive-icon-foreground.png',
       },
     },
     web: {
-      favicon: './assets/favicon.png',
+      favicon: './assets/branding/favicon.png',
     },
     plugins: [
       'expo-router',
@@ -67,9 +67,13 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         'expo-splash-screen',
         {
           backgroundColor: '#F8FAFC',
-          image: './assets/splash-icon.png',
+          image: './assets/branding/splash-logo-light.png',
           imageWidth: 160,
           resizeMode: 'contain',
+          dark: {
+            backgroundColor: '#000000',
+            image: './assets/branding/splash-logo-dark.png',
+          },
         },
       ],
     ],

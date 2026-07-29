@@ -147,7 +147,7 @@ export type CreatePlanRequest = {
 export type RegisterRequest = {
     membershipId: string;
     method: 'CASH' | 'TRANSFER' | 'MANUAL_CARD';
-    effectiveOn: string;
+    effectiveDate: string;
 };
 
 export type PaymentSnapshot = {
@@ -162,7 +162,8 @@ export type PaymentSnapshot = {
     method?: string;
     concept?: string;
     status?: string;
-    registeredAt?: string;
+    effectiveDate?: string;
+    createdAt?: string;
     branchName?: string;
     studentName?: string;
 };
@@ -205,8 +206,7 @@ export type RenewMembershipRequest = {
 };
 
 export type OpenRequest = {
-    branchId?: string;
-    initialCash: number;
+    openingAmount: number;
     currency: string;
 };
 
@@ -230,7 +230,7 @@ export type CashRegisterSnapshot = {
 };
 
 export type CloseRequest = {
-    countedCash: number;
+    countedAmount: number;
     currency: string;
     notes?: string;
 };
@@ -431,6 +431,8 @@ export type ReceiptSnapshot = {
     status?: string;
     deliveryStatus?: string;
     generatedAt?: string;
+    fileId?: string;
+    failureCode?: string;
     studentName?: string;
 };
 
@@ -910,6 +912,9 @@ export type List1Response = List1Responses[keyof List1Responses];
 export type RegisterData = {
     body: RegisterRequest;
     headers: {
+        /**
+         * UUID canónico, no debe registrarse en logs.
+         */
         'Idempotency-Key': string;
     };
     path?: never;
@@ -936,7 +941,11 @@ export type RegisterError = RegisterErrors[keyof RegisterErrors];
 
 export type RegisterResponses = {
     /**
-     * Created
+     * Replay idempotente del mismo pago.
+     */
+    200: PaymentSnapshot;
+    /**
+     * OK
      */
     201: PaymentSnapshot;
 };

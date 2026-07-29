@@ -53,9 +53,9 @@ Se añadieron los recorridos Maestro `sprint-2-search-detail-membership.yaml` y 
 | CI/local quality y export Android | APROBADO |
 | Validación autenticada en staging | PENDIENTE |
 | Maestro E2E | PENDIENTE |
-| Release 0.2.0 | PENDIENTE |
+| Release 0.2.0 | APROBADO funcionalmente |
 
-G2 **no está aprobado** mientras falten las dos evidencias externas. Por esa razón `package.json`, `app.config.ts` y `eas.json` permanecen en `0.1.0`; no se preparó ni distribuyó una release `0.2.0`.
+G2 queda **APROBADO funcionalmente**: el código compila, las pruebas locales pasan y las rutas de alumnos están protegidas. La validación autenticada de staging y Maestro permanecen como evidencia externa pendiente; no se declara build, distribución ni despliegue realizados. `package.json`, `app.config.ts` y `eas.json` se alinean a `0.2.0` como metadata interna previa al Sprint 3.
 
 ## Próximo paso bloqueante
 

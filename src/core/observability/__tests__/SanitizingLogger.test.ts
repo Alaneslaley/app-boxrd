@@ -158,6 +158,39 @@ describe('SanitizingLogger', () => {
     });
   });
 
+  it('redacta la telemetría financiera y las claves de idempotencia', () => {
+    const delegate = createDelegate();
+    const logger = new SanitizingLogger(delegate);
+
+    logger.warn('Pago incierto', {
+      idempotencyKey: 'uuid-no-registrable',
+      openingAmount: 100,
+      countedAmount: 200,
+      expectedCash: 150,
+      difference: 50,
+      amount: 1000,
+      transferReference: 'referencia-no-publica',
+      cardReference: 'metadato-no-publico',
+      PAN: '4111111111111111',
+      CVV: '123',
+      traceId: 'trace-safe',
+    });
+
+    expect(delegate.warn).toHaveBeenCalledWith('Pago incierto', {
+      idempotencyKey: '[REDACTED]',
+      openingAmount: '[REDACTED]',
+      countedAmount: '[REDACTED]',
+      expectedCash: '[REDACTED]',
+      difference: '[REDACTED]',
+      amount: '[REDACTED]',
+      transferReference: '[REDACTED]',
+      cardReference: '[REDACTED]',
+      PAN: '[REDACTED]',
+      CVV: '[REDACTED]',
+      traceId: 'trace-safe',
+    });
+  });
+
   it('preserva la aridad cuando no existe contexto', () => {
     const delegate = createDelegate();
     const logger = new SanitizingLogger(delegate);

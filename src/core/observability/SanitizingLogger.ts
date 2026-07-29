@@ -19,6 +19,17 @@ const DEFAULT_SENSITIVE_KEYS = [
   'fullName',
   'phone',
   'phoneNumber',
+  'idempotencyKey',
+  'openingAmount',
+  'countedAmount',
+  'expectedCash',
+  'difference',
+  'amount',
+  'externalReference',
+  'transferReference',
+  'cardReference',
+  'pan',
+  'cvv',
 ] as const;
 
 const BEARER_PATTERN = /\bBearer\s+[a-zA-Z0-9._~+/-]+=*/gi;

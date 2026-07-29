@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0 — Sprint 2
+
+### Añadido
+
+- Búsqueda paginada de alumnos, ficha protegida, membresías y fotos autenticadas.
+- Resumen operativo de instructor con estados offline, stale y de autorización.
+
+### Limitaciones
+
+- La verificación autenticada de staging y Maestro sigue pendiente de cuentas seed y un build instalado.
+
 ## 0.1.0 — Sprint 1
 
 ### Añadido
