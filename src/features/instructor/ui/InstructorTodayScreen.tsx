@@ -21,6 +21,7 @@ export function InstructorTodayScreen() {
   const summary = useInstructorTodaySummary();
   if (state.status !== 'authenticated') return null;
   const canReadStudents = can(state.permissions, 'ALUMNOS_CONSULTAR');
+  const canReadCash = can(state.permissions, 'CAJA_CONSULTAR');
   if (summary.isPending) return <Screen title={`Hola, ${state.user.firstName}`} subtitle="Operación de hoy"><LoadingState message="Cargando resumen operativo…" /></Screen>;
   if (summary.isError) return <Screen title={`Hola, ${state.user.firstName}`} subtitle="Operación de hoy">{summary.error instanceof ApiError && summary.error.status === 403 ? <AccessDeniedState /> : <ErrorState onRetry={() => void summary.refetch()} traceId={summary.error instanceof ApiError ? summary.error.traceId : undefined} />}</Screen>;
   const data = summary.data;
@@ -31,6 +32,7 @@ export function InstructorTodayScreen() {
     <AppButton label="Actualizar resumen" loading={summary.isRefetching} onPress={() => void summary.refetch()} variant="secondary" />
     <Text style={styles.section}>Acciones rápidas</Text>
     <AppButton disabled={!canReadStudents} label="Buscar alumnos" onPress={() => router.push('./students')} />
+    <AppButton disabled={!canReadCash} label="Consultar caja" onPress={() => router.push('./cash')} variant="secondary" />
     {!canReadStudents ? <Text style={styles.hint}>Tu sesión no tiene permiso para consultar alumnos.</Text> : null}
     <AppButton label="Cerrar sesión" loading={busy === 'signing-out'} onPress={() => { void signOut(); }} variant="danger" />
   </Screen>;
