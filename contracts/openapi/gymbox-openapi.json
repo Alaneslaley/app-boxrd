@@ -1625,6 +1625,32 @@
                             }
                         }
                     },
+                    "409": {
+                        "description": "CASH_REGISTER_ALREADY_OPEN.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CASH_REGISTER_ALREADY_OPEN": {
+                                        "value": {
+                                            "code": "CASH_REGISTER_ALREADY_OPEN",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": ""
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
                     "400": {
                         "description": "Solicitud de apertura inválida.",
                         "headers": {
@@ -1660,32 +1686,6 @@
                                             "details": {},
                                             "timestamp": "2026-07-29T12:00:00Z",
                                             "message": "CURRENCY_MISMATCH u otra regla de negocio."
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "CASH_REGISTER_ALREADY_OPEN.",
-                        "headers": {
-                            "X-Trace-Id": {
-                                "$ref": "#/components/headers/XTraceId"
-                            }
-                        },
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ApiError"
-                                },
-                                "examples": {
-                                    "CASH_REGISTER_ALREADY_OPEN": {
-                                        "value": {
-                                            "code": "CASH_REGISTER_ALREADY_OPEN",
-                                            "traceId": "trace-financial-example",
-                                            "details": {},
-                                            "timestamp": "2026-07-29T12:00:00Z",
-                                            "message": ""
                                         }
                                     }
                                 }
