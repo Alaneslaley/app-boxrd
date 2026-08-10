@@ -300,7 +300,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PlanSnapshot"
                                 }
@@ -845,7 +845,7 @@
                     "200": {
                         "description": "OK",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PageResponsePlanSnapshot"
                                 }
@@ -918,7 +918,7 @@
                     "201": {
                         "description": "Created",
                         "content": {
-                            "*/*": {
+                            "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PlanSnapshot"
                                 }
@@ -1209,12 +1209,59 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CURRENCY_MISMATCH": {
+                                        "value": {
+                                            "code": "CURRENCY_MISMATCH",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "La única moneda admitida es MXN."
+                                        }
+                                    },
+                                    "PLAN_INACTIVE": {
+                                        "value": {
+                                            "code": "PLAN_INACTIVE",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "No se puede asignar o renovar con un plan inactivo."
+                                        }
+                                    },
+                                    "INVALID_EFFECTIVE_DATE": {
+                                        "value": {
+                                            "code": "INVALID_EFFECTIVE_DATE",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "La fecha efectiva se superpone con una membresia activa."
+                                        }
+                                    },
+                                    "CASH_REGISTER_REQUIRED": {
+                                        "value": {
+                                            "code": "CASH_REGISTER_REQUIRED",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "Un pago en efectivo requiere una caja abierta."
+                                        }
+                                    },
+                                    "MEMBERSHIP_NOT_RENEWABLE": {
+                                        "value": {
+                                            "code": "MEMBERSHIP_NOT_RENEWABLE",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "La membresia no puede renovarse en su estado actual."
+                                        }
+                                    }
                                 }
                             }
                         }
                     },
                     "409": {
-                        "description": "Conflicto de idempotencia o sucursal.",
+                        "description": "IDEMPOTENCY_KEY_CONFLICT.",
                         "headers": {
                             "X-Trace-Id": {
                                 "$ref": "#/components/headers/XTraceId"
@@ -1224,6 +1271,17 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "IDEMPOTENCY_KEY_CONFLICT": {
+                                        "value": {
+                                            "code": "IDEMPOTENCY_KEY_CONFLICT",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": ""
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1593,6 +1651,17 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CURRENCY_MISMATCH": {
+                                        "value": {
+                                            "code": "CURRENCY_MISMATCH",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "CURRENCY_MISMATCH u otra regla de negocio."
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1608,6 +1677,17 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CASH_REGISTER_ALREADY_OPEN": {
+                                        "value": {
+                                            "code": "CASH_REGISTER_ALREADY_OPEN",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": ""
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1637,7 +1717,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CashRegisterSnapshot"
+                                    "$ref": "#/components/schemas/ClosedCashRegisterSnapshot"
                                 }
                             }
                         }
@@ -1698,6 +1778,17 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CASH_REGISTER_NOT_OPEN": {
+                                        "value": {
+                                            "code": "CASH_REGISTER_NOT_OPEN",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": ""
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1713,6 +1804,17 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CURRENCY_MISMATCH": {
+                                        "value": {
+                                            "code": "CURRENCY_MISMATCH",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "CURRENCY_MISMATCH u otra regla de negocio."
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -1728,6 +1830,17 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CASH_REGISTER_ALREADY_CLOSED": {
+                                        "value": {
+                                            "code": "CASH_REGISTER_ALREADY_CLOSED",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": ""
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2520,6 +2633,32 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "PAYMENT_NOT_FOUND. El recurso ajeno a la sucursal se oculta con el mismo código.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "PAYMENT_NOT_FOUND": {
+                                        "value": {
+                                            "code": "PAYMENT_NOT_FOUND",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "El recurso ajeno a la sucursal se oculta con el mismo código."
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -2547,7 +2686,25 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/ReceiptSnapshot"
+                                    "discriminator": {
+                                        "propertyName": "status",
+                                        "mapping": {
+                                            "PENDING": "#/components/schemas/PendingReceiptSnapshot",
+                                            "READY": "#/components/schemas/ReadyReceiptSnapshot",
+                                            "FAILED": "#/components/schemas/FailedReceiptSnapshot"
+                                        }
+                                    },
+                                    "oneOf": [
+                                        {
+                                            "$ref": "#/components/schemas/PendingReceiptSnapshot"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/ReadyReceiptSnapshot"
+                                        },
+                                        {
+                                            "$ref": "#/components/schemas/FailedReceiptSnapshot"
+                                        }
+                                    ]
                                 }
                             }
                         }
@@ -2593,6 +2750,41 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "El pago o recibo no es visible para la sucursal actual.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "RECEIPT_NOT_FOUND": {
+                                        "value": {
+                                            "code": "RECEIPT_NOT_FOUND",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "No se encontró el recibo solicitado."
+                                        }
+                                    },
+                                    "PAYMENT_NOT_FOUND": {
+                                        "value": {
+                                            "code": "PAYMENT_NOT_FOUND",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "No se encontró el pago solicitado."
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -2699,11 +2891,24 @@
                 "responses": {
                     "200": {
                         "description": "OK",
+                        "headers": {
+                            "Content-Length": {
+                                "schema": {
+                                    "format": "int64"
+                                }
+                            },
+                            "Content-Disposition": {
+                                "description": "Disposition segura calculada por el backend para el nombre de archivo almacenado.",
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "content": {
-                            "*/*": {
+                            "application/octet-stream": {
                                 "schema": {
                                     "type": "string",
-                                    "format": "byte"
+                                    "format": "binary"
                                 }
                             }
                         }
@@ -2749,6 +2954,32 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "MEDIA_NOT_FOUND. No se encontró el archivo solicitado.",
+                        "headers": {
+                            "X-Trace-Id": {
+                                "$ref": "#/components/headers/XTraceId"
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "MEDIA_NOT_FOUND": {
+                                        "value": {
+                                            "code": "MEDIA_NOT_FOUND",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "No se encontró el archivo solicitado."
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -3000,6 +3231,17 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ApiError"
+                                },
+                                "examples": {
+                                    "CASH_REGISTER_NOT_OPEN": {
+                                        "value": {
+                                            "code": "CASH_REGISTER_NOT_OPEN",
+                                            "traceId": "trace-financial-example",
+                                            "details": {},
+                                            "timestamp": "2026-07-29T12:00:00Z",
+                                            "message": "no existe una caja abierta para la sucursal actual."
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -3591,6 +3833,9 @@
                     },
                     "currency": {
                         "type": "string",
+                        "enum": [
+                            "MXN"
+                        ],
                         "minLength": 1,
                         "pattern": "[A-Za-z]{3}"
                     },
@@ -3621,6 +3866,7 @@
             },
             "PlanSnapshot": {
                 "type": "object",
+                "description": "Plan comercial autoritativo de una sucursal.",
                 "properties": {
                     "id": {
                         "type": "string",
@@ -3637,13 +3883,23 @@
                         "type": "string"
                     },
                     "type": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "WEEKLY",
+                            "MONTHLY",
+                            "SINGLE_CLASS",
+                            "CLASS_PACKAGE"
+                        ]
                     },
                     "price": {
-                        "type": "number"
+                        "type": "number",
+                        "example": 850.0
                     },
                     "currency": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "MXN"
+                        ]
                     },
                     "validityDays": {
                         "type": "integer",
@@ -3654,9 +3910,23 @@
                         "format": "int32"
                     },
                     "status": {
-                        "type": "string"
+                        "type": "string",
+                        "enum": [
+                            "ACTIVO",
+                            "INACTIVO"
+                        ]
                     }
-                }
+                },
+                "required": [
+                    "branchId",
+                    "currency",
+                    "id",
+                    "name",
+                    "price",
+                    "status",
+                    "type",
+                    "validityDays"
+                ]
             },
             "CreateUserRequest": {
                 "type": "object",
@@ -3795,6 +4065,9 @@
                     },
                     "currency": {
                         "type": "string",
+                        "enum": [
+                            "MXN"
+                        ],
                         "minLength": 1,
                         "pattern": "[A-Za-z]{3}"
                     },
@@ -4157,8 +4430,89 @@
                     }
                 },
                 "required": [
+                    "cashRegisterId",
                     "countedAmount",
                     "currency"
+                ]
+            },
+            "ClosedCashRegisterSnapshot": {
+                "type": "object",
+                "description": "Resultado terminal y autoritativo del cierre de caja.",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "branchId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "openedBy": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "openedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "closedBy": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "closedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "initialCash": {
+                        "type": "number"
+                    },
+                    "expectedCash": {
+                        "type": "number"
+                    },
+                    "countedCash": {
+                        "type": "number"
+                    },
+                    "difference": {
+                        "type": "number"
+                    },
+                    "currency": {
+                        "type": "string",
+                        "enum": [
+                            "MXN"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "CLOSED"
+                        ]
+                    },
+                    "notes": {
+                        "type": "string"
+                    },
+                    "branchName": {
+                        "type": "string"
+                    },
+                    "openedByName": {
+                        "type": "string"
+                    },
+                    "closedByName": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "branchId",
+                    "closedAt",
+                    "closedBy",
+                    "countedCash",
+                    "currency",
+                    "difference",
+                    "expectedCash",
+                    "id",
+                    "initialCash",
+                    "openedAt",
+                    "openedBy",
+                    "status"
                 ]
             },
             "RefreshRequest": {
@@ -4661,9 +5015,7 @@
                     }
                 }
             },
-            "ReceiptSnapshot": {
-                "type": "object",
-                "description": "Recibo. fileId y generatedAt existen únicamente cuando status es READY; PENDING y FAILED los omiten.",
+            "FailedReceiptSnapshot": {
                 "properties": {
                     "id": {
                         "type": "string",
@@ -4684,7 +5036,8 @@
                         "format": "uuid"
                     },
                     "amount": {
-                        "type": "number"
+                        "type": "number",
+                        "example": 850.00
                     },
                     "currency": {
                         "type": "string",
@@ -4703,8 +5056,6 @@
                     "status": {
                         "type": "string",
                         "enum": [
-                            "PENDING",
-                            "READY",
                             "FAILED"
                         ]
                     },
@@ -4717,18 +5068,78 @@
                             "FAILED"
                         ]
                     },
-                    "generatedAt": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Requerido cuando status es READY."
-                    },
-                    "fileId": {
-                        "type": "string",
-                        "format": "uuid",
-                        "description": "Requerido cuando status=READY; nulo cuando status=PENDING o status=FAILED. Se descarga mediante media protegida."
-                    },
                     "failureCode": {
                         "type": "string"
+                    },
+                    "studentName": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "amount",
+                    "currency",
+                    "deliveryStatus",
+                    "failureCode",
+                    "id",
+                    "paymentFolio",
+                    "paymentId",
+                    "paymentMethod",
+                    "receiptNumber",
+                    "status"
+                ]
+            },
+            "PendingReceiptSnapshot": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "paymentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "receiptNumber": {
+                        "type": "string"
+                    },
+                    "paymentFolio": {
+                        "type": "string"
+                    },
+                    "studentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "example": 850.00
+                    },
+                    "currency": {
+                        "type": "string",
+                        "enum": [
+                            "MXN"
+                        ]
+                    },
+                    "paymentMethod": {
+                        "type": "string",
+                        "enum": [
+                            "CASH",
+                            "TRANSFER",
+                            "MANUAL_CARD"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING"
+                        ]
+                    },
+                    "deliveryStatus": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "RETRYING",
+                            "SENT",
+                            "FAILED"
+                        ]
                     },
                     "studentName": {
                         "type": "string"
@@ -4744,6 +5155,107 @@
                     "paymentMethod",
                     "receiptNumber",
                     "status"
+                ]
+            },
+            "ReadyReceiptSnapshot": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "paymentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "receiptNumber": {
+                        "type": "string"
+                    },
+                    "paymentFolio": {
+                        "type": "string"
+                    },
+                    "studentId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "example": 850.00
+                    },
+                    "currency": {
+                        "type": "string",
+                        "enum": [
+                            "MXN"
+                        ]
+                    },
+                    "paymentMethod": {
+                        "type": "string",
+                        "enum": [
+                            "CASH",
+                            "TRANSFER",
+                            "MANUAL_CARD"
+                        ]
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "READY"
+                        ]
+                    },
+                    "deliveryStatus": {
+                        "type": "string",
+                        "enum": [
+                            "PENDING",
+                            "RETRYING",
+                            "SENT",
+                            "FAILED"
+                        ]
+                    },
+                    "generatedAt": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "fileId": {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "UUID descargable únicamente mediante /api/v1/media/{fileId}."
+                    },
+                    "studentName": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "amount",
+                    "currency",
+                    "deliveryStatus",
+                    "fileId",
+                    "generatedAt",
+                    "id",
+                    "paymentFolio",
+                    "paymentId",
+                    "paymentMethod",
+                    "receiptNumber",
+                    "status"
+                ]
+            },
+            "ReceiptSnapshot": {
+                "discriminator": {
+                    "propertyName": "status",
+                    "mapping": {
+                        "PENDING": "#/components/schemas/PendingReceiptSnapshot",
+                        "READY": "#/components/schemas/ReadyReceiptSnapshot",
+                        "FAILED": "#/components/schemas/FailedReceiptSnapshot"
+                    }
+                },
+                "oneOf": [
+                    {
+                        "$ref": "#/components/schemas/PendingReceiptSnapshot"
+                    },
+                    {
+                        "$ref": "#/components/schemas/ReadyReceiptSnapshot"
+                    },
+                    {
+                        "$ref": "#/components/schemas/FailedReceiptSnapshot"
+                    }
                 ]
             },
             "PageResponseMembershipSnapshot": {

@@ -92,23 +92,26 @@ export type UpdatePlanRequest = {
     name: string;
     description?: string;
     price: number;
-    currency: string;
+    currency: 'MXN';
     validityDays?: number;
     includedClasses?: number;
     status: 'ACTIVO' | 'INACTIVO';
 };
 
+/**
+ * Plan comercial autoritativo de una sucursal.
+ */
 export type PlanSnapshot = {
-    id?: string;
-    branchId?: string;
-    name?: string;
+    id: string;
+    branchId: string;
+    name: string;
     description?: string;
-    type?: string;
-    price?: number;
-    currency?: string;
-    validityDays?: number;
+    type: 'WEEKLY' | 'MONTHLY' | 'SINGLE_CLASS' | 'CLASS_PACKAGE';
+    price: number;
+    currency: 'MXN';
+    validityDays: number;
     includedClasses?: number;
-    status?: string;
+    status: 'ACTIVO' | 'INACTIVO';
 };
 
 export type CreateUserRequest = {
@@ -139,7 +142,7 @@ export type CreatePlanRequest = {
     description?: string;
     type: 'WEEKLY' | 'MONTHLY' | 'SINGLE_CLASS' | 'CLASS_PACKAGE';
     price: number;
-    currency: string;
+    currency: 'MXN';
     validityDays?: number;
     includedClasses?: number;
 };
@@ -239,10 +242,32 @@ export type CloseRequest = {
     /**
      * Caja obtenida desde current; permite distinguir un cierre duplicado.
      */
-    cashRegisterId?: string;
+    cashRegisterId: string;
     countedAmount: number;
     currency: 'MXN';
     notes?: string;
+};
+
+/**
+ * Resultado terminal y autoritativo del cierre de caja.
+ */
+export type ClosedCashRegisterSnapshot = {
+    id: string;
+    branchId: string;
+    openedBy: string;
+    openedAt: string;
+    closedBy: string;
+    closedAt: string;
+    initialCash: number;
+    expectedCash: number;
+    countedCash: number;
+    difference: number;
+    currency: 'MXN';
+    status: 'CLOSED';
+    notes?: string;
+    branchName?: string;
+    openedByName?: string;
+    closedByName?: string;
 };
 
 /**
@@ -429,10 +454,7 @@ export type PageResponsePaymentSnapshot = {
     last?: boolean;
 };
 
-/**
- * Recibo. fileId y generatedAt existen únicamente cuando status es READY; PENDING y FAILED los omiten.
- */
-export type ReceiptSnapshot = {
+export type FailedReceiptSnapshot = {
     id: string;
     paymentId: string;
     receiptNumber: string;
@@ -441,19 +463,52 @@ export type ReceiptSnapshot = {
     amount: number;
     currency: 'MXN';
     paymentMethod: 'CASH' | 'TRANSFER' | 'MANUAL_CARD';
-    status: 'PENDING' | 'READY' | 'FAILED';
+    status: 'FAILED';
     deliveryStatus: 'PENDING' | 'RETRYING' | 'SENT' | 'FAILED';
-    /**
-     * Requerido cuando status es READY.
-     */
-    generatedAt?: string;
-    /**
-     * Requerido cuando status=READY; nulo cuando status=PENDING o status=FAILED. Se descarga mediante media protegida.
-     */
-    fileId?: string;
-    failureCode?: string;
+    failureCode: string;
     studentName?: string;
 };
+
+export type PendingReceiptSnapshot = {
+    id: string;
+    paymentId: string;
+    receiptNumber: string;
+    paymentFolio: string;
+    studentId?: string;
+    amount: number;
+    currency: 'MXN';
+    paymentMethod: 'CASH' | 'TRANSFER' | 'MANUAL_CARD';
+    status: 'PENDING';
+    deliveryStatus: 'PENDING' | 'RETRYING' | 'SENT' | 'FAILED';
+    studentName?: string;
+};
+
+export type ReadyReceiptSnapshot = {
+    id: string;
+    paymentId: string;
+    receiptNumber: string;
+    paymentFolio: string;
+    studentId?: string;
+    amount: number;
+    currency: 'MXN';
+    paymentMethod: 'CASH' | 'TRANSFER' | 'MANUAL_CARD';
+    status: 'READY';
+    deliveryStatus: 'PENDING' | 'RETRYING' | 'SENT' | 'FAILED';
+    generatedAt: string;
+    /**
+     * UUID descargable únicamente mediante /api/v1/media/{fileId}.
+     */
+    fileId: string;
+    studentName?: string;
+};
+
+export type ReceiptSnapshot = ({
+    status: 'PENDING';
+} & PendingReceiptSnapshot) | ({
+    status: 'READY';
+} & ReadyReceiptSnapshot) | ({
+    status: 'FAILED';
+} & FailedReceiptSnapshot);
 
 export type PageResponseMembershipSnapshot = {
     content?: Array<MembershipSnapshot>;
@@ -959,7 +1014,7 @@ export type RegisterErrors = {
      */
     404: ApiError;
     /**
-     * Conflicto de idempotencia o sucursal.
+     * IDEMPOTENCY_KEY_CONFLICT.
      */
     409: ApiError;
     /**
@@ -1180,7 +1235,7 @@ export type CloseResponses = {
     /**
      * OK
      */
-    200: CashRegisterSnapshot;
+    200: ClosedCashRegisterSnapshot;
 };
 
 export type CloseResponse = CloseResponses[keyof CloseResponses];
@@ -1505,6 +1560,10 @@ export type Get1Errors = {
      */
     403: ApiError;
     /**
+     * PAYMENT_NOT_FOUND. El recurso ajeno a la sucursal se oculta con el mismo código.
+     */
+    404: ApiError;
+    /**
      * Error interno.
      */
     500: ApiError;
@@ -1540,6 +1599,10 @@ export type ReceiptErrors = {
      */
     403: ApiError;
     /**
+     * El pago o recibo no es visible para la sucursal actual.
+     */
+    404: ApiError;
+    /**
      * Error interno.
      */
     500: ApiError;
@@ -1551,7 +1614,13 @@ export type ReceiptResponses = {
     /**
      * OK
      */
-    200: ReceiptSnapshot;
+    200: ({
+        status: 'PENDING';
+    } & PendingReceiptSnapshot) | ({
+        status: 'READY';
+    } & ReadyReceiptSnapshot) | ({
+        status: 'FAILED';
+    } & FailedReceiptSnapshot);
 };
 
 export type ReceiptResponse = ReceiptResponses[keyof ReceiptResponses];
@@ -1610,6 +1679,10 @@ export type LoadErrors = {
      */
     403: ApiError;
     /**
+     * MEDIA_NOT_FOUND. No se encontró el archivo solicitado.
+     */
+    404: ApiError;
+    /**
      * Error interno.
      */
     500: ApiError;
@@ -1621,7 +1694,7 @@ export type LoadResponses = {
     /**
      * OK
      */
-    200: string;
+    200: Blob | File;
 };
 
 export type LoadResponse = LoadResponses[keyof LoadResponses];

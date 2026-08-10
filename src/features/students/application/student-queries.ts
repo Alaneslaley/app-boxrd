@@ -19,6 +19,7 @@ export const studentKeys = {
 };
 
 export const membershipKeys = {
+  all: () => ['memberships'] as const,
   byStudent: (studentId: string) => ['memberships', 'student', studentId] as const,
 };
 

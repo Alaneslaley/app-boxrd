@@ -9,6 +9,8 @@ export default function InstructorLayout() {
       <Stack.Screen name="cash/index" options={{ title: 'Caja' }} />
       <Stack.Screen name="cash/open" options={{ title: 'Abrir caja' }} />
       <Stack.Screen name="cash/close" options={{ title: 'Cerrar caja' }} />
+      <Stack.Screen name="payments/register" options={{ title: 'Registrar pago' }} />
+      <Stack.Screen name="payments/[paymentId]" options={{ title: 'Pago' }} />
     </Stack>
   );
 }
