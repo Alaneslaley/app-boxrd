@@ -1,0 +1,11 @@
+appId: mx.com.gymbox.mobile
+name: Helper Sprint 4 - localizar alumno de asistencia
+tags: [helper, sprint-4]
+---
+- tapOn: "Buscar alumnos"
+- tapOn: "Nombre o teléfono"
+- inputText: "${ATTENDANCE_SEARCH}"
+- assertVisible: "${ATTENDANCE_RESULT}"
+- tapOn: "${ATTENDANCE_RESULT}"
+- assertVisible: "Ficha del alumno"
+- assertVisible: "Registrar check-in"

@@ -1,0 +1,11 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 4 - asistencia de hoy paginada
+tags: [sprint-4, attendance, smoke, external-fixture]
+---
+- runFlow: _sprint-4-login-instructor.yaml
+- tapOn: "Asistencia de hoy"
+- assertVisible: "Asistencia de hoy"
+- assertVisible: "registros cargados"
+- swipe:
+    direction: UP
+- assertNotVisible: "Ocurrió un error"

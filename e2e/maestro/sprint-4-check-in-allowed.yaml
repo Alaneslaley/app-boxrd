@@ -1,0 +1,17 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 4 - check-in ALLOWED
+tags: [sprint-4, attendance, check-in, external-fixture]
+---
+- runFlow: _sprint-4-login-instructor.yaml
+- runFlow:
+    file: _sprint-4-find-student.yaml
+    env:
+      ATTENDANCE_SEARCH: "${GYMBOX_E2E_ATTENDANCE_ALLOWED_SEARCH}"
+      ATTENDANCE_RESULT: "${GYMBOX_E2E_ATTENDANCE_ALLOWED_RESULT}"
+- tapOn: "Registrar check-in"
+- assertVisible: "Confirma la identidad antes de enviar"
+- tapOn: "Revisar check-in"
+- assertVisible: "Confirmar check-in"
+- tapOn: "Registrar check-in ahora"
+- assertVisible: "Check-in registrado"
+- assertVisible: "La asistencia quedó confirmada por el servidor."

@@ -1,0 +1,18 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 4 - check-in bloqueado offline Android
+tags: [sprint-4, attendance, check-in, offline, android, external-fixture]
+---
+- runFlow: _sprint-4-login-instructor.yaml
+- runFlow:
+    file: _sprint-4-find-student.yaml
+    env:
+      ATTENDANCE_SEARCH: "${GYMBOX_E2E_ATTENDANCE_ALLOWED_SEARCH}"
+      ATTENDANCE_RESULT: "${GYMBOX_E2E_ATTENDANCE_ALLOWED_RESULT}"
+- tapOn: "Registrar check-in"
+- tapOn: "Revisar check-in"
+- setAirplaneMode: enabled
+- assertVisible: "Sin conexión"
+- assertVisible: "Check-in deshabilitado"
+- assertVisible: "Registrar check-in ahora"
+- assertNotVisible: "Check-in registrado"
+- setAirplaneMode: disabled

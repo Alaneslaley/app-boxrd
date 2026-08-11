@@ -1,0 +1,34 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 4 - recorrido completo Fase 1
+tags: [sprint-4, full-phase1, payments, attendance, external-fixture]
+---
+- runFlow: _sprint-4-login-instructor.yaml
+- runFlow:
+    file: _sprint-4-find-student.yaml
+    env:
+      ATTENDANCE_SEARCH: "${GYMBOX_E2E_PHASE1_SEARCH}"
+      ATTENDANCE_RESULT: "${GYMBOX_E2E_PHASE1_RESULT}"
+- assertVisible: "Vencida"
+- tapOn: "Registrar pago"
+- tapOn: "Transferencia"
+- tapOn: "Revisar pago"
+- assertVisible: "Confirma el pago"
+- tapOn: "Registrar pago ahora"
+- assertVisible: "Pago confirmado"
+- assertVisible: "Folio"
+- assertVisible: "Recibo"
+- pressKey: BACK
+- assertVisible: "Ficha del alumno"
+- assertVisible: "Activa"
+- tapOn: "Registrar check-in"
+- tapOn: "Revisar check-in"
+- tapOn: "Registrar check-in ahora"
+- assertVisible: "Check-in registrado"
+- tapOn: "Ver asistencia de hoy"
+- assertVisible: "${GYMBOX_E2E_PHASE1_RESULT}"
+- pressKey: BACK
+- pressKey: BACK
+- pressKey: BACK
+- assertVisible: "Operación de hoy"
+- tapOn: "Cerrar sesión"
+- assertVisible: "GymBox"

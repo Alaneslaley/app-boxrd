@@ -1,0 +1,17 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 4 - asistencia denegada por permisos
+tags: [sprint-4, attendance, permissions, external-fixture]
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_ATTENDANCE_FORBIDDEN_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_ATTENDANCE_FORBIDDEN_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Operación de hoy"
+- openLink: "gymbox://attendance"
+- assertVisible: "Acceso denegado"
+- assertNotVisible: "Registrar check-in ahora"

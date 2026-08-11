@@ -1,0 +1,16 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 4 - check-in BLOCKED_EXPIRED_MEMBERSHIP
+tags: [sprint-4, attendance, check-in, external-fixture]
+---
+- runFlow: _sprint-4-login-instructor.yaml
+- runFlow:
+    file: _sprint-4-find-student.yaml
+    env:
+      ATTENDANCE_SEARCH: "${GYMBOX_E2E_ATTENDANCE_EXPIRED_SEARCH}"
+      ATTENDANCE_RESULT: "${GYMBOX_E2E_ATTENDANCE_EXPIRED_RESULT}"
+- tapOn: "Registrar check-in"
+- tapOn: "Revisar check-in"
+- tapOn: "Registrar check-in ahora"
+- assertVisible: "Check-in bloqueado"
+- assertVisible: "La membresía está vencida. No se registró asistencia."
+- assertVisible: "Registrar pago"

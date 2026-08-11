@@ -21,6 +21,7 @@ export function InstructorTodayScreen() {
   const summary = useInstructorTodaySummary();
   if (state.status !== 'authenticated') return null;
   const canReadStudents = can(state.permissions, 'ALUMNOS_CONSULTAR');
+  const canReadAttendance = can(state.permissions, 'ASISTENCIAS_CONSULTAR');
   const canReadCash = can(state.permissions, 'CAJA_CONSULTAR');
   if (summary.isPending) return <Screen title={`Hola, ${state.user.firstName}`} subtitle="Operación de hoy"><LoadingState message="Cargando resumen operativo…" /></Screen>;
   if (summary.isError) return <Screen title={`Hola, ${state.user.firstName}`} subtitle="Operación de hoy">{summary.error instanceof ApiError && summary.error.status === 403 ? <AccessDeniedState /> : <ErrorState onRetry={() => void summary.refetch()} traceId={summary.error instanceof ApiError ? summary.error.traceId : undefined} />}</Screen>;
@@ -31,9 +32,11 @@ export function InstructorTodayScreen() {
     <View style={styles.grid}>{labels.map(([label, field]) => <View key={field} accessibilityLabel={`${label}: ${data[field]}`} style={styles.card}><Text style={styles.count}>{data[field]}</Text><Text style={styles.label}>{label}</Text></View>)}</View>
     <AppButton label="Actualizar resumen" loading={summary.isRefetching} onPress={() => void summary.refetch()} variant="secondary" />
     <Text style={styles.section}>Acciones rápidas</Text>
+    <AppButton disabled={!canReadAttendance} label="Asistencia de hoy" onPress={() => router.push('./attendance')} />
     <AppButton disabled={!canReadStudents} label="Buscar alumnos" onPress={() => router.push('./students')} />
     <AppButton disabled={!canReadCash} label="Consultar caja" onPress={() => router.push('./cash')} variant="secondary" />
     {!canReadStudents ? <Text style={styles.hint}>Tu sesión no tiene permiso para consultar alumnos.</Text> : null}
+    {!canReadAttendance ? <Text style={styles.hint}>Tu sesión no tiene permiso para consultar asistencias.</Text> : null}
     <AppButton label="Cerrar sesión" loading={busy === 'signing-out'} onPress={() => { void signOut(); }} variant="danger" />
   </Screen>;
 }

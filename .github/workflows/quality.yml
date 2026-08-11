@@ -27,29 +27,20 @@ jobs:
       - name: Install from lockfile
         run: npm ci
 
-      - name: Expo Doctor
-        run: npm run doctor
+      - name: Verify OpenAPI contract
+        run: npm run verify:contract
 
-      - name: Lint
-        run: npm run lint
+      - name: Verify generated OpenAPI types from temporary output
+        run: npm run verify:generated
 
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Unit tests
-        run: npm run test:unit
+      - name: Lint
+        run: npm run lint
 
-      - name: Component tests
-        run: npm run test:components
-
-      - name: Verify OpenAPI contract
-        run: npm run verify:contract
-
-      - name: Generate OpenAPI types
-        run: npm run generate:api
-
-      - name: Generated code is current
-        run: git diff --exit-code -- src/generated/api
+      - name: Tests
+        run: npm test -- --ci
 
       - name: Verify import boundaries
         run: npm run verify:boundaries
@@ -59,6 +50,12 @@ jobs:
 
       - name: Validate environments
         run: npm run validate:environments
+
+      - name: Expo Doctor
+        run: npm run doctor
+
+      - name: Validate Maestro YAML
+        run: npm run validate:maestro
 
       - name: Export Android bundle
         run: npm run export

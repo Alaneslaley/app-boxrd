@@ -1,0 +1,15 @@
+appId: mx.com.gymbox.mobile
+name: Helper Sprint 4 - login instructor
+tags: [helper, sprint-4]
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_RECEPTION_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_RECEPTION_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Operación de hoy"
+- assertVisible: "Asistencia de hoy"
