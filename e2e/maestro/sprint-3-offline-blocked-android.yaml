@@ -1,0 +1,11 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - caja bloqueada offline Android
+tags: [sprint-3, cash, offline, android]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- tapOn: "Consultar caja"
+- setAirplaneMode: enabled
+- tapOn: "Actualizar"
+- assertVisible: "Sin conexión"
+- assertNotVisible: "Cerrar caja ahora"
+- setAirplaneMode: disabled

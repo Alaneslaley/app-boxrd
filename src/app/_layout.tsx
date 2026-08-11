@@ -2,6 +2,13 @@ import { Stack } from 'expo-router';
 
 import { AppBootstrap, AppProviders, useSession } from '@/core';
 import { createAuthSessionService } from '@/features/auth';
+import { clearPendingPayment } from '@/features/payments';
+
+const financialCleanup = { clear: clearPendingPayment };
+
+function createSessionServiceWithFinancialCleanup(queryClient: Parameters<typeof createAuthSessionService>[0]) {
+  return createAuthSessionService(queryClient, financialCleanup);
+}
 
 function RootNavigator() {
   const { state } = useSession();
@@ -23,7 +30,7 @@ function RootNavigator() {
 
 export default function RootLayout() {
   return (
-    <AppProviders createSessionService={createAuthSessionService}>
+    <AppProviders createSessionService={createSessionServiceWithFinancialCleanup}>
       <AppBootstrap>
         <RootNavigator />
       </AppBootstrap>

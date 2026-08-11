@@ -1,0 +1,11 @@
+appId: mx.com.gymbox.mobile
+name: Helper Sprint 3 - localizar membresía financiera
+tags: [helper, sprint-3]
+---
+- tapOn: "Buscar alumnos"
+- tapOn: "Nombre o teléfono"
+- inputText: "${GYMBOX_E2E_PAYMENT_SEARCH}"
+- assertVisible: "${GYMBOX_E2E_PAYMENT_RESULT}"
+- tapOn: "${GYMBOX_E2E_PAYMENT_RESULT}"
+- assertVisible: "Ficha del alumno"
+- assertVisible: "Registrar pago"

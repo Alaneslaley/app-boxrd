@@ -1,0 +1,14 @@
+appId: mx.com.gymbox.mobile
+name: Helper Sprint 3 - login recepción
+tags: [helper, sprint-3]
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_RECEPTION_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_RECEPTION_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Operación de hoy"

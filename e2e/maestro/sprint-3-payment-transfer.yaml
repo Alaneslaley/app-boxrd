@@ -1,0 +1,12 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - pago TRANSFER
+tags: [sprint-3, payments]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- runFlow: _sprint-3-find-member.yaml
+- tapOn: "Registrar pago"
+- tapOn: "Transferencia"
+- tapOn: "Revisar pago"
+- assertVisible: "Método: Transferencia"
+- tapOn: "Registrar pago ahora"
+- assertVisible: "Pago confirmado"

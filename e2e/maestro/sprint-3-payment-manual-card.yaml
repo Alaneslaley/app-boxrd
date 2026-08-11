@@ -1,0 +1,14 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - pago MANUAL_CARD sin PAN
+tags: [sprint-3, payments]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- runFlow: _sprint-3-find-member.yaml
+- tapOn: "Registrar pago"
+- tapOn: "Tarjeta manual"
+- assertNotVisible: "CVV"
+- assertNotVisible: "Número de tarjeta"
+- tapOn: "Revisar pago"
+- assertVisible: "Método: Tarjeta manual"
+- tapOn: "Registrar pago ahora"
+- assertVisible: "Pago confirmado"

@@ -12,6 +12,7 @@ import {
 import {
   ExpoSecureTokenVault,
   SessionService,
+  type SensitiveLocalStateCleanup,
 } from '@/core/session';
 
 import { AuthRemoteGateway } from '../api/AuthRemoteGateway';
@@ -24,6 +25,7 @@ const nullLogger: Logger = {
 
 export function createAuthSessionService(
   queryClient: QueryClient,
+  sensitiveLocalStateCleanup?: SensitiveLocalStateCleanup,
 ): SessionService {
   const environment = getEnvironment();
   const logger = new SanitizingLogger(nullLogger);
@@ -51,6 +53,7 @@ export function createAuthSessionService(
     queryCache: queryClient,
     refreshCoordinator,
     logger,
+    sensitiveLocalStateCleanup,
     httpClient,
     protectedMediaSource: (path) => {
       const token = service?.getAccessToken();

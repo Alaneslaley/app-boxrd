@@ -1,4 +1,4 @@
-# Maestro — Sprint 1 y Sprint 2
+# Maestro — Sprint 1, Sprint 2 y Sprint 3
 
 Los flujos usan el binario real `mx.com.gymbox.mobile` y el backend de staging.
 Las credenciales se inyectan al proceso; nunca se guardan en Git:
@@ -33,3 +33,28 @@ realmente el modo avión del simulador iOS.
 El E2E de refresh permanece bloqueado hasta que backend entregue un access token
 de vida corta o una cuenta/configuración de staging preparada. No existe bypass
 de autenticación ni endpoint de prueba dentro de la app.
+
+## Sprint 3
+
+Variables nuevas, siempre inyectadas al proceso:
+
+- `GYMBOX_E2E_RECEPTION_EMAIL` y `GYMBOX_E2E_RECEPTION_PASSWORD`;
+- `GYMBOX_E2E_PAYMENT_SEARCH` y `GYMBOX_E2E_PAYMENT_RESULT`, para un alumno
+  sintético con una sola membresía renovable;
+- `GYMBOX_E2E_COUNTED_AMOUNT`;
+- `GYMBOX_E2E_RECEIPT_PENDING_PAYMENT_ID`,
+  `GYMBOX_E2E_RECEIPT_READY_PAYMENT_ID` y
+  `GYMBOX_E2E_RECEIPT_FAILED_PAYMENT_ID`.
+
+`GYMBOX_E2E_BASE_URL` se reserva al preparador externo del seed/proxy. La app
+debe compilarse para ese entorno; el repositorio no contiene sus secretos.
+
+Los `sprint-3-*.yaml` cubren caja sin apertura, apertura, los tres métodos de
+pago, cierre, permisos y offline. Los sufijados `-external` requieren fixtures
+de staging. Replay, uncertain y logout requieren un proxy de fallo de transporte
+de un solo uso que corte la respuesta después del commit; Maestro no crea esa
+condición. Los estados de recibo requieren IDs sintéticos presembrados.
+
+Cada recorrido financiero necesita un seed aislado o reiniciado. `clearState`
+limpia el dispositivo, pero no revierte la caja ni los pagos del backend. Hasta
+ejecutarlos con esos prerrequisitos, la evidencia permanece `PENDIENTE EXTERNO`.

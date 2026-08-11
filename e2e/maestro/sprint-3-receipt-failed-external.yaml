@@ -1,0 +1,10 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - recibo FAILED
+tags: [sprint-3, receipts, external-fixture]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- openLink: "gymbox://payments/${GYMBOX_E2E_RECEIPT_FAILED_PAYMENT_ID}"
+- assertVisible: "Pago confirmado"
+- assertVisible: "No se pudo generar el recibo"
+- assertVisible: "Código:"
+- assertNotVisible: "Vista protegida del recibo"

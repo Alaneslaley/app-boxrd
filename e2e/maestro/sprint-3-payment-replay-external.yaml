@@ -1,0 +1,15 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - replay de la misma intención
+tags: [sprint-3, payments, external-fixture]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- runFlow: _sprint-3-find-member.yaml
+- tapOn: "Registrar pago"
+- tapOn: "Transferencia"
+- tapOn: "Revisar pago"
+# El proxy externo corta sólo la primera respuesta; backend conserva el pago.
+- tapOn: "Registrar pago ahora"
+- assertVisible: "No pudimos confirmar el resultado"
+- tapOn: "Reintentar la misma operación"
+- assertVisible: "Este pago ya estaba registrado"
+- assertVisible: "No se creó otro pago"

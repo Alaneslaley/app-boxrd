@@ -1,0 +1,10 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - recibo PENDING
+tags: [sprint-3, receipts, external-fixture]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- openLink: "gymbox://payments/${GYMBOX_E2E_RECEIPT_PENDING_PAYMENT_ID}"
+- assertVisible: "Pago confirmado"
+- assertVisible: "Recibo en preparación"
+- assertNotVisible: "Vista protegida del recibo"
+- tapOn: "Actualizar recibo"

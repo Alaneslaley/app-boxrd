@@ -20,6 +20,7 @@ export const studentKeys = {
 
 export const membershipKeys = {
   all: () => ['memberships'] as const,
+  detail: (membershipId: string) => ['memberships', 'detail', membershipId] as const,
   byStudent: (studentId: string) => ['memberships', 'student', studentId] as const,
 };
 
@@ -45,6 +46,7 @@ export type MembershipExpirationStatus =
 
 export type Membership = Readonly<{
   id: string;
+  planId?: string;
   planName?: string;
   planType?: string;
   startDate?: string;
@@ -108,6 +110,7 @@ export function membershipFromDto(value: MembershipDto): Membership {
   if (!value.id) throw new ApiError(502, 'MALFORMED_MEMBERSHIP_RESPONSE', 'El servicio devolvió una membresía incompleta.', undefined, undefined);
   return {
     id: value.id,
+    planId: clean(value.planId),
     planName: clean(value.planName), planType: clean(value.planType),
     startDate: clean(value.startDate), endDate: clean(value.endDate), status: clean(value.status),
     expirationStatus: membershipExpirationStatusFromValue(value.expirationStatus),

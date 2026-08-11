@@ -1,0 +1,14 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - pago CASH
+tags: [sprint-3, payments, cash]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- runFlow: _sprint-3-find-member.yaml
+- tapOn: "Registrar pago"
+- assertVisible: "Monto de referencia"
+- tapOn: "Efectivo"
+- tapOn: "Revisar pago"
+- assertVisible: "Confirma el pago"
+- tapOn: "Registrar pago ahora"
+- assertVisible: "Pago confirmado"
+- assertVisible: "Folio"

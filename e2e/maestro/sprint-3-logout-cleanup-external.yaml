@@ -1,0 +1,27 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - logout elimina pago uncertain
+tags: [sprint-3, payments, logout, external-fixture]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- runFlow: _sprint-3-find-member.yaml
+- tapOn: "Registrar pago"
+- tapOn: "Transferencia"
+- tapOn: "Revisar pago"
+# El proxy externo corta esta respuesta para crear un pending local.
+- tapOn: "Registrar pago ahora"
+- assertVisible: "No pudimos confirmar el resultado"
+- pressKey: BACK
+- pressKey: BACK
+- pressKey: BACK
+- tapOn: "Cerrar sesión"
+- assertVisible: "GymBox"
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_RECEPTION_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_RECEPTION_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- runFlow: _sprint-3-find-member.yaml
+- tapOn: "Registrar pago"
+- assertNotVisible: "Pago pendiente de confirmación"
+- assertVisible: "Monto de referencia"

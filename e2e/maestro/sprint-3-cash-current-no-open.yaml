@@ -1,0 +1,8 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - caja actual sin apertura
+tags: [sprint-3, cash]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- tapOn: "Consultar caja"
+- assertVisible: "No hay una caja abierta"
+- assertVisible: "Abrir caja"

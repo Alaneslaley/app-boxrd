@@ -16,6 +16,7 @@ export {
   type SessionServiceDependencies,
 } from './SessionService';
 export { useSession, type SessionContextValue } from './SessionContext';
+export type { SensitiveLocalStateCleanup } from './SensitiveLocalStateCleanup';
 export type {
   CurrentUser,
   SessionExperience,

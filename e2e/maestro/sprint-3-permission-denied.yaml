@@ -1,0 +1,16 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - permisos financieros denegados
+tags: [sprint-3, permissions]
+---
+- launchApp:
+    clearState: true
+    clearKeychain: true
+- tapOn: "Correo electrónico"
+- inputText: "${GYMBOX_E2E_NO_PERMISSION_EMAIL}"
+- tapOn: "Contraseña"
+- inputText: "${GYMBOX_E2E_NO_PERMISSION_PASSWORD}"
+- hideKeyboard
+- tapOn: "Iniciar sesión"
+- assertVisible: "Acceso denegado"
+- assertNotVisible: "Abrir caja"
+- assertNotVisible: "Registrar pago"

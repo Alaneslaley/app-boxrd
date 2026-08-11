@@ -1,0 +1,14 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - pago uncertain con fallo de transporte externo
+tags: [sprint-3, payments, external-fixture]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- runFlow: _sprint-3-find-member.yaml
+- tapOn: "Registrar pago"
+- tapOn: "Transferencia"
+- tapOn: "Revisar pago"
+# El proxy externo corta esta única respuesta después de procesarla.
+- tapOn: "Registrar pago ahora"
+- assertVisible: "No pudimos confirmar el resultado"
+- assertVisible: "No registres otro cobro"
+- assertVisible: "Reintenta esta misma operación"

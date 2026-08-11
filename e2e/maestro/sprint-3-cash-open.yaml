@@ -1,0 +1,16 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - apertura de caja confirmada
+tags: [sprint-3, cash]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- tapOn: "Consultar caja"
+- assertVisible: "No hay una caja abierta"
+- tapOn: "Abrir caja"
+- tapOn: "Monto inicial"
+- inputText: "500.00"
+- hideKeyboard
+- tapOn: "Revisar apertura"
+- assertVisible: "Confirma la apertura"
+- assertVisible: "Monto inicial: $500.00 MXN"
+- tapOn: "Abrir caja ahora"
+- assertVisible: "Caja abierta"

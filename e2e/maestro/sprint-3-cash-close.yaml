@@ -1,0 +1,17 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - cierre de caja autoritativo
+tags: [sprint-3, cash]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- tapOn: "Consultar caja"
+- assertVisible: "Caja abierta"
+- tapOn: "Cerrar caja"
+- tapOn: "Monto contado"
+- inputText: "${GYMBOX_E2E_COUNTED_AMOUNT}"
+- hideKeyboard
+- tapOn: "Revisar cierre"
+- assertVisible: "Confirma el cierre"
+- tapOn: "Cerrar caja ahora"
+- assertVisible: "Cierre de caja confirmado"
+- assertVisible: "Diferencia:"
+- assertVisible: "Estado: CLOSED"

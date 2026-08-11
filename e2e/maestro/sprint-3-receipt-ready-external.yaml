@@ -1,0 +1,10 @@
+appId: mx.com.gymbox.mobile
+name: Sprint 3 - recibo READY protegido
+tags: [sprint-3, receipts, external-fixture]
+---
+- runFlow: _sprint-3-login-reception.yaml
+- openLink: "gymbox://payments/${GYMBOX_E2E_RECEIPT_READY_PAYMENT_ID}"
+- assertVisible: "Pago confirmado"
+- assertVisible: "READY"
+- assertVisible: "Vista protegida del recibo"
+- assertVisible: "sin token en URL y sin caché persistente"

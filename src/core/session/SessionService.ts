@@ -14,6 +14,7 @@ import type {
   SessionState,
 } from './SessionState';
 import type { TokenVault } from './TokenVault';
+import type { SensitiveLocalStateCleanup } from './SensitiveLocalStateCleanup';
 
 type ResolvedSessionState = Exclude<SessionState, { status: 'booting' }>;
 
@@ -28,6 +29,7 @@ export type SessionServiceDependencies = Readonly<{
   queryCache: QuerySessionCache;
   refreshCoordinator: RefreshCoordinator;
   logger: Logger;
+  sensitiveLocalStateCleanup?: SensitiveLocalStateCleanup;
   httpClient?: HttpClient;
   protectedMediaSource?(path: `/media/${string}`): ProtectedMediaSource | undefined;
 }>;
@@ -363,6 +365,14 @@ export class SessionService {
       this.dependencies.queryCache.clear();
     } catch (error) {
       this.dependencies.logger.warn('session.query-clear-failed', { error });
+    }
+
+    if (!preserveRefreshToken && this.dependencies.sensitiveLocalStateCleanup) {
+      try {
+        await this.dependencies.sensitiveLocalStateCleanup.clear();
+      } catch (error) {
+        this.dependencies.logger.warn('session.sensitive-state-clear-failed', { error });
+      }
     }
 
     return expectedGeneration === this.generation;

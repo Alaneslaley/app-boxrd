@@ -13,6 +13,7 @@ import {
 } from '../SessionService';
 import type { CurrentUser } from '../SessionState';
 import type { TokenVault } from '../TokenVault';
+import type { SensitiveLocalStateCleanup } from '../SensitiveLocalStateCleanup';
 
 const OLD_REFRESH_TOKEN = 'refresh-old';
 
@@ -126,12 +127,17 @@ function createHarness(options: {
     error: jest.fn(),
   };
 
+  const sensitiveLocalStateCleanup: jest.Mocked<SensitiveLocalStateCleanup> = {
+    clear: jest.fn(async () => undefined),
+  };
+
   const service = new SessionService({
     gateway,
     tokenVault,
     queryCache,
     refreshCoordinator,
     logger,
+    sensitiveLocalStateCleanup,
   });
 
   return {
@@ -142,6 +148,7 @@ function createHarness(options: {
     refreshCoordinator,
     invalidate,
     logger,
+    sensitiveLocalStateCleanup,
     storedRefreshToken: () => storedRefreshToken,
   };
 }
@@ -161,6 +168,7 @@ async function establishAuthenticatedSession(harness: Harness): Promise<void> {
   harness.invalidate.mockClear();
   harness.logger.warn.mockClear();
   harness.logger.error.mockClear();
+  harness.sensitiveLocalStateCleanup.clear.mockClear();
 }
 
 describe('SessionService.bootstrap', () => {
@@ -267,6 +275,7 @@ describe('SessionService.bootstrap', () => {
     expect(harness.tokenVault.clear).not.toHaveBeenCalled();
     expect(harness.storedRefreshToken()).toBe(OLD_REFRESH_TOKEN);
     expect(harness.queryCache.clear).toHaveBeenCalledTimes(1);
+    expect(harness.sensitiveLocalStateCleanup.clear).not.toHaveBeenCalled();
     expect(harness.service.getAccessToken()).toBeUndefined();
   });
 
@@ -351,6 +360,7 @@ describe('SessionService.bootstrap', () => {
     expect(harness.tokenVault.clear).toHaveBeenCalledTimes(1);
     expect(harness.queryCache.cancelQueries).toHaveBeenCalledTimes(1);
     expect(harness.queryCache.clear).toHaveBeenCalledTimes(1);
+    expect(harness.sensitiveLocalStateCleanup.clear).toHaveBeenCalledTimes(1);
   });
 
   it('revierte la sesión si SecureStore falla al persistir la rotación', async () => {
@@ -521,12 +531,34 @@ describe('SessionService.logout', () => {
     expect(harness.queryCache.cancelQueries).toHaveBeenCalledTimes(1);
     expect(harness.queryCache.clear).toHaveBeenCalledTimes(1);
     expect(harness.invalidate).toHaveBeenCalledTimes(1);
+    expect(harness.sensitiveLocalStateCleanup.clear).toHaveBeenCalledTimes(1);
     expect(listener).toHaveBeenCalledWith({ status: 'anonymous' });
 
     const cancelOrder =
       harness.queryCache.cancelQueries.mock.invocationCallOrder[0]!;
     const clearOrder = harness.queryCache.clear.mock.invocationCallOrder[0]!;
+    const sensitiveOrder = harness.sensitiveLocalStateCleanup.clear.mock.invocationCallOrder[0]!;
     expect(cancelOrder).toBeLessThan(clearOrder);
+    expect(clearOrder).toBeLessThan(sensitiveOrder);
+  });
+
+  it('mantiene el logout efectivo si falla la limpieza financiera sensible', async () => {
+    const harness = createHarness();
+    await establishAuthenticatedSession(harness);
+    const cleanupError = new Error('SecureStore financial cleanup failed');
+    harness.sensitiveLocalStateCleanup.clear.mockRejectedValueOnce(cleanupError);
+    const listener = jest.fn();
+    harness.service.subscribe(listener);
+
+    await expect(harness.service.logout()).resolves.toBeUndefined();
+
+    expect(harness.tokenVault.clear).toHaveBeenCalledTimes(1);
+    expect(harness.queryCache.clear).toHaveBeenCalledTimes(1);
+    expect(listener).toHaveBeenCalledWith({ status: 'anonymous' });
+    expect(harness.logger.warn).toHaveBeenCalledWith(
+      'session.sensitive-state-clear-failed',
+      { error: cleanupError },
+    );
   });
 
   it.each([
