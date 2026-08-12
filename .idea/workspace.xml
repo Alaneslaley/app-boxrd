@@ -7,19 +7,6 @@
     <list default="true" id="d1235660-ec07-4465-9b73-b39e81826b4d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CIERRES_PR_0_A_PR_4.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/RELEASE_NOTES_0.1.0.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/SPRINT_2_DIAGNOSTICO.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/e2e/maestro/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/maestro/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/e2e/maestro/login-valid.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/e2e/maestro/login-valid.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/instructor/ui/InstructorTodayScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/instructor/ui/InstructorTodayScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/students/application/student-queries.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/application/student-queries.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/students/ui/ProtectedStudentPhoto.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/ui/ProtectedStudentPhoto.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/students/ui/StudentDetailScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/ui/StudentDetailScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/features/students/ui/StudentSearchScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/students/ui/StudentSearchScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generated/api/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/api/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/generated/api/types.gen.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/generated/api/types.gen.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,22 +49,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "copilot.chat.legacySessionMetadata.migrated": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/ESCUELA BOX RD/box-RD"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;copilot.chat.legacySessionMetadata.migrated&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/ESCUELA BOX RD/box-RD&quot;
   }
-}]]></component>
+}</component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="d1235660-ec07-4465-9b73-b39e81826b4d" name="Changes" comment="" />
